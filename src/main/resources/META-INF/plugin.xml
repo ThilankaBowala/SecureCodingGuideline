@@ -9,7 +9,13 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>
+        <!--<toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>-->
     </extensions>
+
+    <actions>
+        <!--<action class="Tools.LiveParser" id="OnTheFlyMechanism" text="OnTheFlyMechanism" >
+        </action>-->
+    </actions>
 
     <applicationListeners>
         <listener class="com.github.thilankabowala.securecodingguideline.listeners.MyProjectManagerListener"
