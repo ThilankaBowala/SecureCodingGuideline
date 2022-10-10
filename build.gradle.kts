@@ -23,6 +23,13 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("com.github.javaparser:javaparser-symbol-solver-core:3.24.4")
+    implementation("com.github.javaparser:javaparser-core:3.24.4")
+    implementation("com.github.javaparser:javaparser-core-serialization:3.24.4")
+//    smokeTest("org.apache.httpcomponents:httpclient:4.5.5")
+}
+
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3
 kotlin {
     jvmToolchain {
