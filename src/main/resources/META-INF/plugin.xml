@@ -10,15 +10,16 @@
         <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>
         <!--<toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>-->
+        <toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
     </extensions>
 
     <actions>
-        <!--<action class="Tools.LiveParser" id="OnTheFlyMechanism" text="OnTheFlyMechanism" >
-        </action>-->
+        <action class="Tools.LiveParser" id="OnTheFlyMechanism" text="OnTheFlyMechanism" >
+        </action>
     </actions>
 
-    <applicationListeners>
-        <listener class="com.github.thilankabowala.securecodingguideline.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+<!--    <applicationListeners>-->
+<!--        <listener class="com.github.thilankabowala.securecodingguideline.listeners.MyProjectManagerListener"-->
+<!--                  topic="com.intellij.openapi.project.ProjectManagerListener"/>-->
+<!--    </applicationListeners>-->
 </idea-plugin>
