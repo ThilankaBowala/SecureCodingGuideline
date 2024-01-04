@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation("com.github.javaparser:javaparser-symbol-solver-core:3.24.4")
-    implementation("com.github.javaparser:javaparser-core:3.24.4")
+    implementation("com.github.javaparser:javaparser-core:3.25.1")
     implementation("com.github.javaparser:javaparser-core-serialization:3.24.4")
 }
 
