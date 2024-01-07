@@ -2,14 +2,19 @@
 <idea-plugin>
     <id>com.github.thilankabowala.securecodingguideline</id>
     <name>SecureCodingGuideline</name>
-    <vendor>thilankabowala</vendor>
+    <vendor email="thilankabowala@gmail.com" url="">thilankabowala</vendor>
+
+    <description><![CDATA[
+    This is the extension of the plugin "Framework for Secure Coding" of TeamHelixUCSC.<br>
+    <em>Old plugin url: https://plugins.jetbrains.com/plugin/11265-framework-for-secure-coding</em>
+    ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>
-        <!--<toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>-->
+        <!--<toolWindow id="SCA_Tool" secondary="true" anchor="bottom" factoryClass="com.intellij.execution.dashboard.RunDashboardToolWindowFactory"/>-->
         <toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
     </extensions>
 
