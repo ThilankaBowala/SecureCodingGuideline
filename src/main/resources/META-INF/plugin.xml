@@ -19,12 +19,13 @@
     </extensions>
 
     <actions>
-        <action class="Tools.LiveParser" id="OnTheFlyMechanism" text="OnTheFlyMechanism" >
+        <action class="Tools.LiveParser" id="Tools.LiveParser" text="OnTheFlyMechanism" >
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>
 
-<!--    <applicationListeners>-->
-<!--        <listener class="com.github.thilankabowala.securecodingguideline.listeners.MyProjectManagerListener"-->
-<!--                  topic="com.intellij.openapi.project.ProjectManagerListener"/>-->
-<!--    </applicationListeners>-->
+    <applicationListeners>
+        <listener class="Tools.MyEditorMouseMotionListener"
+                  topic="com.intellij.openapi.editor.event.EditorMouseMotionListener"/>
+    </applicationListeners>
 </idea-plugin>
