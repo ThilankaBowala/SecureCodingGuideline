@@ -34,6 +34,7 @@ import java.util.Map;
 import static ViolationDetectors.ViolationDetector.lce;
 
 public class LiveParser extends AnAction {
+
     public static String editorText;
     static String rule1; //method level
     static String rule2; //method level
@@ -54,8 +55,8 @@ public class LiveParser extends AnAction {
     static Countermeasures_data Countermeasure_data = new Countermeasures_data();
     private static LiveParser instance;
 
-    public static LiveParser getInstance(){
-        if(instance == null){
+    public static LiveParser getInstance() {
+        if (instance == null) {
             instance = new LiveParser();
         }
         return instance;
@@ -82,12 +83,13 @@ public class LiveParser extends AnAction {
         public MyTypedHandler(TypedActionHandler handler) {
             this.handler = handler;
         }
+
         @Override
         public void execute(@NotNull Editor editor, char c, @NotNull DataContext dataContext) {
             handler.execute(editor, c, dataContext);
             Project project = editor.getProject();
             Document document = editor.getDocument();
-            editorText= document.getText();
+            editorText = document.getText();
             TooltipController tooltipController = new TooltipController();
             editor.addEditorMouseMotionListener(new MyEditorMouseMotionListener(tooltipController));
 
@@ -104,15 +106,15 @@ public class LiveParser extends AnAction {
 
                 DetectorFactory DetectorFactory = new DetectorFactory();
 
-                ViolationDetector methodLevelDetector=  DetectorFactory.getViolatorType("MethodLevelViolationDetector");
-                ViolationDetector  classLevelDetector=  DetectorFactory.getViolatorType("ClassLevelViolationDetector");
-                ViolationDetector  packageLevelDetector=  DetectorFactory.getViolatorType("PackageLevelViolationDetector");
+                ViolationDetector methodLevelDetector = DetectorFactory.getViolatorType("MethodLevelViolationDetector");
+                ViolationDetector classLevelDetector = DetectorFactory.getViolatorType("ClassLevelViolationDetector");
+                ViolationDetector packageLevelDetector = DetectorFactory.getViolatorType("PackageLevelViolationDetector");
 
-                MethodLevelCodeFragment methodLevel= new MethodLevelCodeFragment();
+                MethodLevelCodeFragment methodLevel = new MethodLevelCodeFragment();
                 ClassLevelCodeFragment classLevel = new ClassLevelCodeFragment();
                 PackageLevelCodeFragment packageLevel = new PackageLevelCodeFragment();
 
-                myToolWindowContent.setLayout(new GridLayout(1,2));
+                myToolWindowContent.setLayout(new GridLayout(1, 2));
                 myToolWindowContent.setAutoscrolls(true);
                 box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
                 countermeasure_box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
@@ -128,21 +130,21 @@ public class LiveParser extends AnAction {
 
                 if (true) {
                     rule1 = methodLevelDetector.rule1Detection();
-                    if(!rule1.equals("")){
+                    if (!rule1.equals("")) {
                         String tooltip = "Do not use floating-point variables as loop counters";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"),tooltip);
+                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
                         methodLevel.forCounter.clear();
                         String CounterMeasure = Countermeasure_data.CountermeasureData.get("NUM09J");
                         JLabel jLabel = this.createJLabel(rule1, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters"));
                         //box.add(this.createJLabel(rule1, tooltip));
                     }
                     methodLevel.forCounter.clear();
 
-                    rule2= methodLevelDetector.rule2Detection();
-                    if(!rule2.equals("")){
+                    rule2 = methodLevelDetector.rule2Detection();
+                    if (!rule2.equals("")) {
                         String tooltip = "Do not catch NullPointerException or any of its ancestors";
                         syntaxhighlighter.highlight(editor, document, lce.get("method_rule2_line"), lce.get("method_rule2_column"), lce.get("method_rule2_end"), tooltip);
                         methodLevel.catchClause.clear();
@@ -151,14 +153,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule2, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/ERR08-J.+Do+not+catch+NullPointerException+or+any+of+its+ancestors"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR08-J.+Do+not+catch+NullPointerException+or+any+of+its+ancestors"));
                         //box.add(this.createJLabel(rule2, tooltip));
                     }
                     methodLevel.catchClause.clear();
                     methodLevel.forCounter.clear();
 
                     rule3 = classLevelDetector.rule1Detection();
-                    if(!rule3.equals("")){
+                    if (!rule3.equals("")) {
                         String tooltip = "Classes that define an equals() method must also define a hashCode() method";
                         syntaxhighlighter.highlight(editor, document, lce.get("class_rule1_line"), lce.get("class_rule1_column"), lce.get("class_rule1_end"), tooltip);
                         classLevel.methoddeclarations.clear();
@@ -166,29 +168,29 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule3, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/MET09-J.+Classes+that+define+an+equals%28%29+method+must+also+define+a+hashCode%28%29+method"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/MET09-J.+Classes+that+define+an+equals%28%29+method+must+also+define+a+hashCode%28%29+method"));
                         //box.add(this.createJLabel(rule3, tooltip));
                     }
                     classLevel.methoddeclarations.clear();
 
-                    rule4 =  classLevelDetector.rule2Detection();
-                    if(!rule4.equals("")){
+                    rule4 = classLevelDetector.rule2Detection();
+                    if (!rule4.equals("")) {
                         String tooltip = "Do not return references to private mutable class members";
                         syntaxhighlighter.highlight(editor, document, lce.get("class_rule2_line"), lce.get("class_rule2_column"), lce.get("class_rule2_end"), tooltip);
                         classLevel.ClassVarNonPrimitiveList.clear();
                         methodLevel.returnstatementlist.clear();
                         String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ05J");
-                        JLabel jLabel =this.createJLabel(rule4,tooltip);
+                        JLabel jLabel = this.createJLabel(rule4, tooltip);
                         JLabel link = new JLabel(("Click here for more details"));
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/OBJ05-J.+Do+not+return+references+to+private+mutable+class+members"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ05-J.+Do+not+return+references+to+private+mutable+class+members"));
                         //box.add(this.createJLabel(rule4, tooltip));
                     }
                     classLevel.ClassVarNonPrimitiveList.clear();
                     methodLevel.returnstatementlist.clear();
 
                     rule5 = packageLevelDetector.rule1Detection();
-                    if(!rule5.equals("")){
+                    if (!rule5.equals("")) {
                         String tooltip = "Do not invoke Thread.run()";
                         syntaxhighlighter.highlight(editor, document, lce.get("package_rule1_line"), lce.get("package_rule1_column"), lce.get("package_rule1_end"), tooltip);
                         packageLevel.ImplementedInterfaces.clear();
@@ -197,14 +199,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule5, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88487912"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88487912"));
                         //box.add(this.createJLabel(rule5, tooltip));
                     }
                     packageLevel.ImplementedInterfaces.clear();
                     methodLevel.methodCalls.clear();
 
                     rule6 = packageLevelDetector.rule2Detection();
-                    if(!rule6.equals("")){
+                    if (!rule6.equals("")) {
                         String tooltip = "Do not deviate from the proper signatures of serialization methods";
                         syntaxhighlighter.highlight(editor, document, lce.get("package_rule2_line"), lce.get("package_rule2_column"), lce.get("package_rule2_end"), tooltip);
                         packageLevel.ImplementedInterfaces.clear();
@@ -213,14 +215,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule6, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/SER01-J.+Do+not+deviate+from+the+proper+signatures+of+serialization+methods"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SER01-J.+Do+not+deviate+from+the+proper+signatures+of+serialization+methods"));
                         //box.add(this.createJLabel(rule6, tooltip));
                     }
                     packageLevel.ImplementedInterfaces.clear();
                     classLevel.methodSignatures.clear();
 
                     rule7 = classLevelDetector.rule4Detection();
-                    if(!rule7.equals("")){
+                    if (!rule7.equals("")) {
                         String tooltip = "Prevent class initialization cycles";
                         syntaxhighlighter.highlight(editor, document, lce.get("class_rule4_line"), lce.get("class_rule4_column"), lce.get("class_rule4_end"), tooltip);
                         classLevel.clssvardeclarations.clear();
@@ -229,14 +231,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule7, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/DCL00-J.+Prevent+class+initialization+cycles"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/DCL00-J.+Prevent+class+initialization+cycles"));
                         //box.add(this.createJLabel(rule7, tooltip));
                     }
                     classLevel.clssvardeclarations.clear();
                     classLevel.constructorAssignStmt.clear();
 
                     rule8 = classLevelDetector.rule3Detection();
-                    if(!rule8.equals("")){
+                    if (!rule8.equals("")) {
                         String tooltip = "Limit accessibility of fields";
                         syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
                         classLevel.clssvardeclarations.clear();
@@ -247,7 +249,7 @@ public class LiveParser extends AnAction {
                         JLabel jLabel6 = this.createJLabel(rule8, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel6,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields"));
+                        box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields"));
                         //box.add(this.createJLabel(rule8, tooltip));
                     }
                     classLevel.clssvardeclarations.clear();
@@ -255,8 +257,8 @@ public class LiveParser extends AnAction {
                     methodLevel.AssignExprlist.clear();
                     methodLevel.UnaryExpressionslist.clear();
 
-                    rule9= methodLevelDetector.rule3Detection();
-                    if(!rule9.equals("")){
+                    rule9 = methodLevelDetector.rule3Detection();
+                    if (!rule9.equals("")) {
                         String tooltip = "Do not throw RuntimeException, Exception, or Throwable";
                         syntaxhighlighter.highlight(editor, document, lce.get("method_rule3_line"), lce.get("method_rule3_column"), lce.get("method_rule3_end"), tooltip);
                         methodLevel.throwStatement.clear();
@@ -264,13 +266,13 @@ public class LiveParser extends AnAction {
                         JLabel jLabel6 = this.createJLabel(rule9, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel6,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/ERR07-J.+Do+not+throw+RuntimeException%2C+Exception%2C+or+Throwable"));
+                        box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR07-J.+Do+not+throw+RuntimeException%2C+Exception%2C+or+Throwable"));
                         //box.add(this.createJLabel(rule9, tooltip));
                     }
                     methodLevel.throwStatement.clear();
 
-                    rule10= methodLevelDetector.rule4Detection();
-                    if(!rule10.equals("")){
+                    rule10 = methodLevelDetector.rule4Detection();
+                    if (!rule10.equals("")) {
                         String tooltip = "Do not complete abruptly from a finally block";
                         syntaxhighlighter.highlight(editor, document, lce.get("method_rule4_line"), lce.get("method_rule4_column"), lce.get("method_rule4_end"), tooltip);
                         methodLevel.finallystmtBlock.clear();
@@ -278,13 +280,13 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule10, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/ERR04-J.+Do+not+complete+abruptly+from+a+finally+block"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR04-J.+Do+not+complete+abruptly+from+a+finally+block"));
                         //box.add(this.createJLabel(rule10, tooltip));
                     }
                     methodLevel.finallystmtBlock.clear();
 
                     rule11 = packageLevelDetector.rule3Detection();
-                    if(!rule11.equals("")){
+                    if (!rule11.equals("")) {
                         String tooltip = "Do not construct BigDecimal objects from floating-point literals";
                         syntaxhighlighter.highlight(editor, document, lce.get("package_rule3_line"), lce.get("package_rule3_column"), lce.get("package_rule3_end"), tooltip);
                         methodLevel.ObjectCReationExpress.clear();
@@ -292,13 +294,13 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule11, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/NUM10-J.+Do+not+construct+BigDecimal+objects+from+floating-point+literals"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM10-J.+Do+not+construct+BigDecimal+objects+from+floating-point+literals"));
                         //box.add(this.createJLabel(rule11, tooltip));
                     }
                     methodLevel.ObjectCReationExpress.clear();
 
                     rule12 = packageLevelDetector.rule4Detection();
-                    if(!rule12.equals("")){
+                    if (!rule12.equals("")) {
                         String tooltip = "Call the superclass's getPermissions() method when writing a custom class loader";
                         syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
                         classLevel.methoddeclarations.clear();
@@ -307,14 +309,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule12, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/SEC07-J.+Call+the+superclass%27s+getPermissions%28%29+method+when+writing+a+custom+class+loader"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SEC07-J.+Call+the+superclass%27s+getPermissions%28%29+method+when+writing+a+custom+class+loader"));
                         //box.add(this.createJLabel(rule12, tooltip));
                     }
                     classLevel.methoddeclarations.clear();
                     methodLevel.ObjectCReationExpress.clear();
 
-                    rule13= methodLevelDetector.rule5Detection();
-                    if(!rule13.equals("")){
+                    rule13 = methodLevelDetector.rule5Detection();
+                    if (!rule13.equals("")) {
                         String tooltip = "Do not use the Object.equals() method to compare two arrays";
                         syntaxhighlighter.highlight(editor, document, lce.get("method_rule5_line"), lce.get("method_rule5_column"), lce.get("method_rule5_end"), tooltip);
                         methodLevel.equalsmethodArguments.clear();
@@ -323,14 +325,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule13, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/EXP02-J.+Do+not+use+the+Object.equals%28%29+method+to+compare+two+arrays"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/EXP02-J.+Do+not+use+the+Object.equals%28%29+method+to+compare+two+arrays"));
                         //box.add(this.createJLabel(rule13, tooltip));
                     }
                     methodLevel.equalsmethodArguments.clear();
                     methodLevel.arraysList.clear();
 
                     rule14 = packageLevelDetector.rule5Detection();
-                    if(!rule14.equals("")){
+                    if (!rule14.equals("")) {
                         String tooltip = "Detect and handle file-related errors";
                         syntaxhighlighter.highlight(editor, document, lce.get("package_rule5_line"), lce.get("package_rule5_column"), lce.get("package_rule5_end"), tooltip);
                         methodLevel.ObjectCReationExpress.clear();
@@ -339,14 +341,14 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule14, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/FIO02-J.+Detect+and+handle+file-related+errors"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/FIO02-J.+Detect+and+handle+file-related+errors"));
                         //box.add(this.createJLabel(rule14, tooltip));
                     }
                     methodLevel.ObjectCReationExpress.clear();
                     methodLevel.IfStatements.clear();
 
                     rule15 = classLevelDetector.rule5Detection();
-                    if(!rule15.equals("")){
+                    if (!rule15.equals("")) {
                         String tooltip = "Do not use public static nonfinal fields";
                         syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
                         classLevel.clssvardeclarations.clear();
@@ -354,7 +356,7 @@ public class LiveParser extends AnAction {
                         JLabel jLabel = this.createJLabel(rule15, tooltip);
                         JLabel link = new JLabel("Click here for more details");
                         link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel,CounterM_boxHeading,link,CounterMeasure,"https://wiki.sei.cmu.edu/confluence/display/java/OBJ10-J.+Do+not+use+public+static+nonfinal+fields"));
+                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ10-J.+Do+not+use+public+static+nonfinal+fields"));
                         //box.add(this.createJLabel(rule15, tooltip));
                     }
                     classLevel.clssvardeclarations.clear();
@@ -363,27 +365,26 @@ public class LiveParser extends AnAction {
                     myToolWindowContent.add(countermeasure_box);
                     this.addtotoolwindow(toolWindow);
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        public JLabel createJLabel(String rule, String tooltip){
+        public JLabel createJLabel(String rule, String tooltip) {
             JLabel jp = new JLabel();
             jp.setText("<html><br><font color='red'>" + rule + "</font><br></html>");
             jp.setToolTipText(tooltip);
             return jp;
         }
 
-        public JLabel createCountermeasure (String counterMeasureData)
-        {
+        public JLabel createCountermeasure(String counterMeasureData) {
             JLabel jp = new JLabel();
             jp.setText(counterMeasureData);
             jp.setHorizontalAlignment(JLabel.CENTER);
             return jp;
         }
 
-        public void addtotoolwindow(ToolWindow toolWindow){
+        public void addtotoolwindow(ToolWindow toolWindow) {
             title.setLayout(new FlowLayout(FlowLayout.CENTER));
             myToolWindowContent.add(title);
             ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
@@ -391,7 +392,7 @@ public class LiveParser extends AnAction {
             toolWindow.getContentManager().addContent(content);
         }
 
-        public void cleartoolwindow(ToolWindow toolWindow){
+        public void cleartoolwindow(ToolWindow toolWindow) {
             toolWindow.getContentManager().removeAllContents(true);
             box.removeAll();
             countermeasure_box.removeAll();
@@ -401,7 +402,7 @@ public class LiveParser extends AnAction {
             myToolWindowContent.remove(title);
         }
 
-        public void setLinkToRule(JLabel link,String url){
+        public void setLinkToRule(JLabel link, String url) {
 
             link.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             link.setToolTipText("Click on below link for more details...");
@@ -412,7 +413,7 @@ public class LiveParser extends AnAction {
             link.setFont(font.deriveFont(attributes));
             link.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    if (e.getButton()>0) {
+                    if (e.getButton() > 0) {
                         if (Desktop.isDesktopSupported()) {
                             Desktop desktop = Desktop.getDesktop();
                             try {
@@ -433,17 +434,17 @@ public class LiveParser extends AnAction {
             });
         }
 
-        public JLabel setRuleDescription(JLabel label, JLabel labelHeading, JLabel link, String ruleDetails, String url){
+        public JLabel setRuleDescription(JLabel label, JLabel labelHeading, JLabel link, String ruleDetails, String url) {
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //super.mouseClicked(e);
-                    if(e.getButton()==MouseEvent.BUTTON1){
+                    if (e.getButton() == MouseEvent.BUTTON1) {
                         countermeasure_box.removeAll();
                         countermeasure_box.add(labelHeading);
                         countermeasure_box.add(createCountermeasure(ruleDetails));
-                        setLinkToRule(link,url);
+                        setLinkToRule(link, url);
                         countermeasure_box.add(link);
                     }
                 }
@@ -452,7 +453,7 @@ public class LiveParser extends AnAction {
             return label;
         }
 
-        public void removeAllHighlighters(Editor editor){
+        public void removeAllHighlighters(Editor editor) {
             editor.getMarkupModel().removeAllHighlighters();
         }
     }
