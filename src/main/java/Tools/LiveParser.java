@@ -90,6 +90,7 @@ public class LiveParser extends AnAction {
             Project project = editor.getProject();
             Document document = editor.getDocument();
             editorText = document.getText();
+
             TooltipController tooltipController = new TooltipController();
             editor.addEditorMouseMotionListener(new MyEditorMouseMotionListener(tooltipController));
 
@@ -102,271 +103,283 @@ public class LiveParser extends AnAction {
             syntaxhighlighter.tooltips.clear();
             this.cleartoolwindow(toolWindow);
             this.removeAllHighlighters(editor);
+
             try {
+                setupToolWindowStyling();
+                JLabel counterMeasureBoxHeading = setupCounterMeasureBoxHeading();
+                detectBasicViolations(editor, document, syntaxhighlighter, toolWindow, counterMeasureBoxHeading);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-                DetectorFactory DetectorFactory = new DetectorFactory();
+        public void setupToolWindowStyling() {
+            myToolWindowContent.setLayout(new GridLayout(1, 2));
+            myToolWindowContent.setAutoscrolls(true);
+            box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
+            countermeasure_box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
+            JLabel boxHeading = new JLabel("<html><h3><font color='black'>Violated Rules</font><h3></html>");
+            boxHeading.setHorizontalAlignment(JLabel.CENTER);
+            boxHeading.setBackground(JBColor.ORANGE);
+            box.add(boxHeading);
+        }
 
-                ViolationDetector methodLevelDetector = DetectorFactory.getViolatorType("MethodLevelViolationDetector");
-                ViolationDetector classLevelDetector = DetectorFactory.getViolatorType("ClassLevelViolationDetector");
-                ViolationDetector packageLevelDetector = DetectorFactory.getViolatorType("PackageLevelViolationDetector");
+        public JLabel setupCounterMeasureBoxHeading() {
+            JLabel counterMeasureBoxHeading = new JLabel("<html><h3><font color='black'>Rule Description</font><h3></html>");
+            counterMeasureBoxHeading.setHorizontalAlignment(JLabel.CENTER);
+            counterMeasureBoxHeading.setBackground(JBColor.ORANGE);
+            countermeasure_box.add(counterMeasureBoxHeading);
 
-                MethodLevelCodeFragment methodLevel = new MethodLevelCodeFragment();
-                ClassLevelCodeFragment classLevel = new ClassLevelCodeFragment();
-                PackageLevelCodeFragment packageLevel = new PackageLevelCodeFragment();
+            return counterMeasureBoxHeading;
+        }
 
-                myToolWindowContent.setLayout(new GridLayout(1, 2));
-                myToolWindowContent.setAutoscrolls(true);
-                box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
-                countermeasure_box.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
-                JLabel boxHeading = new JLabel("<html><h3><font color='black'>Violated Rules</font><h3></html>");
-                boxHeading.setHorizontalAlignment(JLabel.CENTER);
-                boxHeading.setBackground(JBColor.ORANGE);
-                box.add(boxHeading);
+        public void detectBasicViolations(@NotNull Editor editor, Document document, SyntaxHighlighter syntaxhighlighter, ToolWindow toolWindow, JLabel CounterM_boxHeading) {
+            DetectorFactory DetectorFactory = new DetectorFactory();
 
-                JLabel CounterM_boxHeading = new JLabel("<html><h3><font color='black'>Rule Description</font><h3></html>");
-                CounterM_boxHeading.setHorizontalAlignment(JLabel.CENTER);
-                CounterM_boxHeading.setBackground(JBColor.ORANGE);
-                countermeasure_box.add(CounterM_boxHeading);
+            ViolationDetector methodLevelDetector = DetectorFactory.getViolatorType("MethodLevelViolationDetector");
+            ViolationDetector classLevelDetector = DetectorFactory.getViolatorType("ClassLevelViolationDetector");
+            ViolationDetector packageLevelDetector = DetectorFactory.getViolatorType("PackageLevelViolationDetector");
 
-                if (true) {
-                    rule1 = methodLevelDetector.rule1Detection();
-                    if (!rule1.equals("")) {
-                        String tooltip = "Do not use floating-point variables as loop counters";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
-                        methodLevel.forCounter.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("NUM09J");
-                        JLabel jLabel = this.createJLabel(rule1, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters"));
-                        //box.add(this.createJLabel(rule1, tooltip));
-                    }
+            MethodLevelCodeFragment methodLevel = new MethodLevelCodeFragment();
+            ClassLevelCodeFragment classLevel = new ClassLevelCodeFragment();
+            PackageLevelCodeFragment packageLevel = new PackageLevelCodeFragment();
+
+            if (true) {
+                rule1 = methodLevelDetector.rule1Detection();
+                if (!rule1.equals("")) {
+                    String tooltip = "Do not use floating-point variables as loop counters";
+                    syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
                     methodLevel.forCounter.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("NUM09J");
+                    JLabel jLabel = this.createJLabel(rule1, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters"));
+                    //box.add(this.createJLabel(rule1, tooltip));
+                }
+                methodLevel.forCounter.clear();
 
-                    rule2 = methodLevelDetector.rule2Detection();
-                    if (!rule2.equals("")) {
-                        String tooltip = "Do not catch NullPointerException or any of its ancestors";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule2_line"), lce.get("method_rule2_column"), lce.get("method_rule2_end"), tooltip);
-                        methodLevel.catchClause.clear();
-                        methodLevel.forCounter.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR08J");
-                        JLabel jLabel = this.createJLabel(rule2, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR08-J.+Do+not+catch+NullPointerException+or+any+of+its+ancestors"));
-                        //box.add(this.createJLabel(rule2, tooltip));
-                    }
+                rule2 = methodLevelDetector.rule2Detection();
+                if (!rule2.equals("")) {
+                    String tooltip = "Do not catch NullPointerException or any of its ancestors";
+                    syntaxhighlighter.highlight(editor, document, lce.get("method_rule2_line"), lce.get("method_rule2_column"), lce.get("method_rule2_end"), tooltip);
                     methodLevel.catchClause.clear();
                     methodLevel.forCounter.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR08J");
+                    JLabel jLabel = this.createJLabel(rule2, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR08-J.+Do+not+catch+NullPointerException+or+any+of+its+ancestors"));
+                    //box.add(this.createJLabel(rule2, tooltip));
+                }
+                methodLevel.catchClause.clear();
+                methodLevel.forCounter.clear();
 
-                    rule3 = classLevelDetector.rule1Detection();
-                    if (!rule3.equals("")) {
-                        String tooltip = "Classes that define an equals() method must also define a hashCode() method";
-                        syntaxhighlighter.highlight(editor, document, lce.get("class_rule1_line"), lce.get("class_rule1_column"), lce.get("class_rule1_end"), tooltip);
-                        classLevel.methoddeclarations.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("MET09J");
-                        JLabel jLabel = this.createJLabel(rule3, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/MET09-J.+Classes+that+define+an+equals%28%29+method+must+also+define+a+hashCode%28%29+method"));
-                        //box.add(this.createJLabel(rule3, tooltip));
-                    }
+                rule3 = classLevelDetector.rule1Detection();
+                if (!rule3.equals("")) {
+                    String tooltip = "Classes that define an equals() method must also define a hashCode() method";
+                    syntaxhighlighter.highlight(editor, document, lce.get("class_rule1_line"), lce.get("class_rule1_column"), lce.get("class_rule1_end"), tooltip);
                     classLevel.methoddeclarations.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("MET09J");
+                    JLabel jLabel = this.createJLabel(rule3, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/MET09-J.+Classes+that+define+an+equals%28%29+method+must+also+define+a+hashCode%28%29+method"));
+                    //box.add(this.createJLabel(rule3, tooltip));
+                }
+                classLevel.methoddeclarations.clear();
 
-                    rule4 = classLevelDetector.rule2Detection();
-                    if (!rule4.equals("")) {
-                        String tooltip = "Do not return references to private mutable class members";
-                        syntaxhighlighter.highlight(editor, document, lce.get("class_rule2_line"), lce.get("class_rule2_column"), lce.get("class_rule2_end"), tooltip);
-                        classLevel.ClassVarNonPrimitiveList.clear();
-                        methodLevel.returnstatementlist.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ05J");
-                        JLabel jLabel = this.createJLabel(rule4, tooltip);
-                        JLabel link = new JLabel(("Click here for more details"));
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ05-J.+Do+not+return+references+to+private+mutable+class+members"));
-                        //box.add(this.createJLabel(rule4, tooltip));
-                    }
+                rule4 = classLevelDetector.rule2Detection();
+                if (!rule4.equals("")) {
+                    String tooltip = "Do not return references to private mutable class members";
+                    syntaxhighlighter.highlight(editor, document, lce.get("class_rule2_line"), lce.get("class_rule2_column"), lce.get("class_rule2_end"), tooltip);
                     classLevel.ClassVarNonPrimitiveList.clear();
                     methodLevel.returnstatementlist.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ05J");
+                    JLabel jLabel = this.createJLabel(rule4, tooltip);
+                    JLabel link = new JLabel(("Click here for more details"));
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ05-J.+Do+not+return+references+to+private+mutable+class+members"));
+                    //box.add(this.createJLabel(rule4, tooltip));
+                }
+                classLevel.ClassVarNonPrimitiveList.clear();
+                methodLevel.returnstatementlist.clear();
 
-                    rule5 = packageLevelDetector.rule1Detection();
-                    if (!rule5.equals("")) {
-                        String tooltip = "Do not invoke Thread.run()";
-                        syntaxhighlighter.highlight(editor, document, lce.get("package_rule1_line"), lce.get("package_rule1_column"), lce.get("package_rule1_end"), tooltip);
-                        packageLevel.ImplementedInterfaces.clear();
-                        methodLevel.methodCalls.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("THI00J");
-                        JLabel jLabel = this.createJLabel(rule5, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88487912"));
-                        //box.add(this.createJLabel(rule5, tooltip));
-                    }
+                rule5 = packageLevelDetector.rule1Detection();
+                if (!rule5.equals("")) {
+                    String tooltip = "Do not invoke Thread.run()";
+                    syntaxhighlighter.highlight(editor, document, lce.get("package_rule1_line"), lce.get("package_rule1_column"), lce.get("package_rule1_end"), tooltip);
                     packageLevel.ImplementedInterfaces.clear();
                     methodLevel.methodCalls.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("THI00J");
+                    JLabel jLabel = this.createJLabel(rule5, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88487912"));
+                    //box.add(this.createJLabel(rule5, tooltip));
+                }
+                packageLevel.ImplementedInterfaces.clear();
+                methodLevel.methodCalls.clear();
 
-                    rule6 = packageLevelDetector.rule2Detection();
-                    if (!rule6.equals("")) {
-                        String tooltip = "Do not deviate from the proper signatures of serialization methods";
-                        syntaxhighlighter.highlight(editor, document, lce.get("package_rule2_line"), lce.get("package_rule2_column"), lce.get("package_rule2_end"), tooltip);
-                        packageLevel.ImplementedInterfaces.clear();
-                        classLevel.methodSignatures.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("SER01J");
-                        JLabel jLabel = this.createJLabel(rule6, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SER01-J.+Do+not+deviate+from+the+proper+signatures+of+serialization+methods"));
-                        //box.add(this.createJLabel(rule6, tooltip));
-                    }
+                rule6 = packageLevelDetector.rule2Detection();
+                if (!rule6.equals("")) {
+                    String tooltip = "Do not deviate from the proper signatures of serialization methods";
+                    syntaxhighlighter.highlight(editor, document, lce.get("package_rule2_line"), lce.get("package_rule2_column"), lce.get("package_rule2_end"), tooltip);
                     packageLevel.ImplementedInterfaces.clear();
                     classLevel.methodSignatures.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("SER01J");
+                    JLabel jLabel = this.createJLabel(rule6, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SER01-J.+Do+not+deviate+from+the+proper+signatures+of+serialization+methods"));
+                    //box.add(this.createJLabel(rule6, tooltip));
+                }
+                packageLevel.ImplementedInterfaces.clear();
+                classLevel.methodSignatures.clear();
 
-                    rule7 = classLevelDetector.rule4Detection();
-                    if (!rule7.equals("")) {
-                        String tooltip = "Prevent class initialization cycles";
-                        syntaxhighlighter.highlight(editor, document, lce.get("class_rule4_line"), lce.get("class_rule4_column"), lce.get("class_rule4_end"), tooltip);
-                        classLevel.clssvardeclarations.clear();
-                        classLevel.constructorAssignStmt.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("DCL00J");
-                        JLabel jLabel = this.createJLabel(rule7, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/DCL00-J.+Prevent+class+initialization+cycles"));
-                        //box.add(this.createJLabel(rule7, tooltip));
-                    }
+                rule7 = classLevelDetector.rule4Detection();
+                if (!rule7.equals("")) {
+                    String tooltip = "Prevent class initialization cycles";
+                    syntaxhighlighter.highlight(editor, document, lce.get("class_rule4_line"), lce.get("class_rule4_column"), lce.get("class_rule4_end"), tooltip);
                     classLevel.clssvardeclarations.clear();
                     classLevel.constructorAssignStmt.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("DCL00J");
+                    JLabel jLabel = this.createJLabel(rule7, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/DCL00-J.+Prevent+class+initialization+cycles"));
+                    //box.add(this.createJLabel(rule7, tooltip));
+                }
+                classLevel.clssvardeclarations.clear();
+                classLevel.constructorAssignStmt.clear();
 
-                    rule8 = classLevelDetector.rule3Detection();
-                    if (!rule8.equals("")) {
-                        String tooltip = "Limit accessibility of fields";
-                        syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
-                        classLevel.clssvardeclarations.clear();
-                        methodLevel.returnstatementlist.clear();
-                        methodLevel.AssignExprlist.clear();
-                        methodLevel.UnaryExpressionslist.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ01J");
-                        JLabel jLabel6 = this.createJLabel(rule8, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields"));
-                        //box.add(this.createJLabel(rule8, tooltip));
-                    }
+                rule8 = classLevelDetector.rule3Detection();
+                if (!rule8.equals("")) {
+                    String tooltip = "Limit accessibility of fields";
+                    syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
                     classLevel.clssvardeclarations.clear();
                     methodLevel.returnstatementlist.clear();
                     methodLevel.AssignExprlist.clear();
                     methodLevel.UnaryExpressionslist.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ01J");
+                    JLabel jLabel6 = this.createJLabel(rule8, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields"));
+                    //box.add(this.createJLabel(rule8, tooltip));
+                }
+                classLevel.clssvardeclarations.clear();
+                methodLevel.returnstatementlist.clear();
+                methodLevel.AssignExprlist.clear();
+                methodLevel.UnaryExpressionslist.clear();
 
-                    rule9 = methodLevelDetector.rule3Detection();
-                    if (!rule9.equals("")) {
-                        String tooltip = "Do not throw RuntimeException, Exception, or Throwable";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule3_line"), lce.get("method_rule3_column"), lce.get("method_rule3_end"), tooltip);
-                        methodLevel.throwStatement.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR07J");
-                        JLabel jLabel6 = this.createJLabel(rule9, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR07-J.+Do+not+throw+RuntimeException%2C+Exception%2C+or+Throwable"));
-                        //box.add(this.createJLabel(rule9, tooltip));
-                    }
+                rule9 = methodLevelDetector.rule3Detection();
+                if (!rule9.equals("")) {
+                    String tooltip = "Do not throw RuntimeException, Exception, or Throwable";
+                    syntaxhighlighter.highlight(editor, document, lce.get("method_rule3_line"), lce.get("method_rule3_column"), lce.get("method_rule3_end"), tooltip);
                     methodLevel.throwStatement.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR07J");
+                    JLabel jLabel6 = this.createJLabel(rule9, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel6, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR07-J.+Do+not+throw+RuntimeException%2C+Exception%2C+or+Throwable"));
+                    //box.add(this.createJLabel(rule9, tooltip));
+                }
+                methodLevel.throwStatement.clear();
 
-                    rule10 = methodLevelDetector.rule4Detection();
-                    if (!rule10.equals("")) {
-                        String tooltip = "Do not complete abruptly from a finally block";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule4_line"), lce.get("method_rule4_column"), lce.get("method_rule4_end"), tooltip);
-                        methodLevel.finallystmtBlock.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR04J");
-                        JLabel jLabel = this.createJLabel(rule10, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR04-J.+Do+not+complete+abruptly+from+a+finally+block"));
-                        //box.add(this.createJLabel(rule10, tooltip));
-                    }
+                rule10 = methodLevelDetector.rule4Detection();
+                if (!rule10.equals("")) {
+                    String tooltip = "Do not complete abruptly from a finally block";
+                    syntaxhighlighter.highlight(editor, document, lce.get("method_rule4_line"), lce.get("method_rule4_column"), lce.get("method_rule4_end"), tooltip);
                     methodLevel.finallystmtBlock.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR04J");
+                    JLabel jLabel = this.createJLabel(rule10, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR04-J.+Do+not+complete+abruptly+from+a+finally+block"));
+                    //box.add(this.createJLabel(rule10, tooltip));
+                }
+                methodLevel.finallystmtBlock.clear();
 
-                    rule11 = packageLevelDetector.rule3Detection();
-                    if (!rule11.equals("")) {
-                        String tooltip = "Do not construct BigDecimal objects from floating-point literals";
-                        syntaxhighlighter.highlight(editor, document, lce.get("package_rule3_line"), lce.get("package_rule3_column"), lce.get("package_rule3_end"), tooltip);
-                        methodLevel.ObjectCReationExpress.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("NUM10J");
-                        JLabel jLabel = this.createJLabel(rule11, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM10-J.+Do+not+construct+BigDecimal+objects+from+floating-point+literals"));
-                        //box.add(this.createJLabel(rule11, tooltip));
-                    }
+                rule11 = packageLevelDetector.rule3Detection();
+                if (!rule11.equals("")) {
+                    String tooltip = "Do not construct BigDecimal objects from floating-point literals";
+                    syntaxhighlighter.highlight(editor, document, lce.get("package_rule3_line"), lce.get("package_rule3_column"), lce.get("package_rule3_end"), tooltip);
                     methodLevel.ObjectCReationExpress.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("NUM10J");
+                    JLabel jLabel = this.createJLabel(rule11, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM10-J.+Do+not+construct+BigDecimal+objects+from+floating-point+literals"));
+                    //box.add(this.createJLabel(rule11, tooltip));
+                }
+                methodLevel.ObjectCReationExpress.clear();
 
-                    rule12 = packageLevelDetector.rule4Detection();
-                    if (!rule12.equals("")) {
-                        String tooltip = "Call the superclass's getPermissions() method when writing a custom class loader";
-                        syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
-                        classLevel.methoddeclarations.clear();
-                        methodLevel.ObjectCReationExpress.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("SEC07J");
-                        JLabel jLabel = this.createJLabel(rule12, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SEC07-J.+Call+the+superclass%27s+getPermissions%28%29+method+when+writing+a+custom+class+loader"));
-                        //box.add(this.createJLabel(rule12, tooltip));
-                    }
+                rule12 = packageLevelDetector.rule4Detection();
+                if (!rule12.equals("")) {
+                    String tooltip = "Call the superclass's getPermissions() method when writing a custom class loader";
+                    syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
                     classLevel.methoddeclarations.clear();
                     methodLevel.ObjectCReationExpress.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("SEC07J");
+                    JLabel jLabel = this.createJLabel(rule12, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SEC07-J.+Call+the+superclass%27s+getPermissions%28%29+method+when+writing+a+custom+class+loader"));
+                    //box.add(this.createJLabel(rule12, tooltip));
+                }
+                classLevel.methoddeclarations.clear();
+                methodLevel.ObjectCReationExpress.clear();
 
-                    rule13 = methodLevelDetector.rule5Detection();
-                    if (!rule13.equals("")) {
-                        String tooltip = "Do not use the Object.equals() method to compare two arrays";
-                        syntaxhighlighter.highlight(editor, document, lce.get("method_rule5_line"), lce.get("method_rule5_column"), lce.get("method_rule5_end"), tooltip);
-                        methodLevel.equalsmethodArguments.clear();
-                        methodLevel.arraysList.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("EXP02J");
-                        JLabel jLabel = this.createJLabel(rule13, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/EXP02-J.+Do+not+use+the+Object.equals%28%29+method+to+compare+two+arrays"));
-                        //box.add(this.createJLabel(rule13, tooltip));
-                    }
+                rule13 = methodLevelDetector.rule5Detection();
+                if (!rule13.equals("")) {
+                    String tooltip = "Do not use the Object.equals() method to compare two arrays";
+                    syntaxhighlighter.highlight(editor, document, lce.get("method_rule5_line"), lce.get("method_rule5_column"), lce.get("method_rule5_end"), tooltip);
                     methodLevel.equalsmethodArguments.clear();
                     methodLevel.arraysList.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("EXP02J");
+                    JLabel jLabel = this.createJLabel(rule13, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/EXP02-J.+Do+not+use+the+Object.equals%28%29+method+to+compare+two+arrays"));
+                    //box.add(this.createJLabel(rule13, tooltip));
+                }
+                methodLevel.equalsmethodArguments.clear();
+                methodLevel.arraysList.clear();
 
-                    rule14 = packageLevelDetector.rule5Detection();
-                    if (!rule14.equals("")) {
-                        String tooltip = "Detect and handle file-related errors";
-                        syntaxhighlighter.highlight(editor, document, lce.get("package_rule5_line"), lce.get("package_rule5_column"), lce.get("package_rule5_end"), tooltip);
-                        methodLevel.ObjectCReationExpress.clear();
-                        methodLevel.IfStatements.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("FIO02J");
-                        JLabel jLabel = this.createJLabel(rule14, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/FIO02-J.+Detect+and+handle+file-related+errors"));
-                        //box.add(this.createJLabel(rule14, tooltip));
-                    }
+                rule14 = packageLevelDetector.rule5Detection();
+                if (!rule14.equals("")) {
+                    String tooltip = "Detect and handle file-related errors";
+                    syntaxhighlighter.highlight(editor, document, lce.get("package_rule5_line"), lce.get("package_rule5_column"), lce.get("package_rule5_end"), tooltip);
                     methodLevel.ObjectCReationExpress.clear();
                     methodLevel.IfStatements.clear();
-
-                    rule15 = classLevelDetector.rule5Detection();
-                    if (!rule15.equals("")) {
-                        String tooltip = "Do not use public static nonfinal fields";
-                        syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
-                        classLevel.clssvardeclarations.clear();
-                        String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ10J");
-                        JLabel jLabel = this.createJLabel(rule15, tooltip);
-                        JLabel link = new JLabel("Click here for more details");
-                        link.setHorizontalAlignment(JLabel.CENTER);
-                        box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ10-J.+Do+not+use+public+static+nonfinal+fields"));
-                        //box.add(this.createJLabel(rule15, tooltip));
-                    }
-                    classLevel.clssvardeclarations.clear();
-
-                    myToolWindowContent.add(box);
-                    myToolWindowContent.add(countermeasure_box);
-                    this.addtotoolwindow(toolWindow);
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("FIO02J");
+                    JLabel jLabel = this.createJLabel(rule14, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/FIO02-J.+Detect+and+handle+file-related+errors"));
+                    //box.add(this.createJLabel(rule14, tooltip));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                methodLevel.ObjectCReationExpress.clear();
+                methodLevel.IfStatements.clear();
+
+                rule15 = classLevelDetector.rule5Detection();
+                if (!rule15.equals("")) {
+                    String tooltip = "Do not use public static nonfinal fields";
+                    syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
+                    classLevel.clssvardeclarations.clear();
+                    String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ10J");
+                    JLabel jLabel = this.createJLabel(rule15, tooltip);
+                    JLabel link = new JLabel("Click here for more details");
+                    link.setHorizontalAlignment(JLabel.CENTER);
+                    box.add(setRuleDescription(jLabel, CounterM_boxHeading, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ10-J.+Do+not+use+public+static+nonfinal+fields"));
+                    //box.add(this.createJLabel(rule15, tooltip));
+                }
+                classLevel.clssvardeclarations.clear();
+
+                myToolWindowContent.add(box);
+                myToolWindowContent.add(countermeasure_box);
+                this.addtotoolwindow(toolWindow);
             }
         }
 
