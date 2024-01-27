@@ -26,22 +26,6 @@ import static ViolationDetectors.ViolationDetector.lce;
 
 public class ViolationDetectorSystem {
     private static ViolationDetectorSystem instance;
-    private static Countermeasures_data Countermeasure_data = new Countermeasures_data();
-    private static String rule1; //method level
-    private static String rule2; //method level
-    private static String rule3; //class level
-    private static String rule4; //class level
-    private static String rule5; //package level
-    private static String rule6; //package level
-    private static String rule7; //class level
-    private static String rule8; //class level
-    private static String rule9; //method level
-    private static String rule10; //method level
-    private static String rule11; //package level
-    private static String rule12; //package level
-    private static String rule13; //method level
-    private static String rule14; //package level
-    private static String rule15; //class level
     private static final ToolWindowSystem toolWindowSystem = ToolWindowSystem.getInstance();
 
     private ViolationDetectorSystem(){
@@ -56,6 +40,7 @@ public class ViolationDetectorSystem {
 
     public void detectBasicViolations(@NotNull Editor editor, Document document, SyntaxHighlighter syntaxhighlighter, ToolWindow toolWindow) {
         DetectorFactory DetectorFactory = new DetectorFactory();
+        Countermeasures_data Countermeasure_data = new Countermeasures_data();
 
         ViolationDetector methodLevelDetector = DetectorFactory.getViolatorType("MethodLevelViolationDetector");
         ViolationDetector classLevelDetector = DetectorFactory.getViolatorType("ClassLevelViolationDetector");
@@ -66,7 +51,7 @@ public class ViolationDetectorSystem {
         PackageLevelCodeFragment packageLevel = new PackageLevelCodeFragment();
 
         if (true) {
-            rule1 = methodLevelDetector.rule1Detection();
+            String rule1 = methodLevelDetector.rule1Detection();
             if (!rule1.equals("")) {
                 String tooltip = "Do not use floating-point variables as loop counters";
                 syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
@@ -79,7 +64,7 @@ public class ViolationDetectorSystem {
             }
             methodLevel.forCounter.clear();
 
-            rule2 = methodLevelDetector.rule2Detection();
+            String rule2 = methodLevelDetector.rule2Detection();
             if (!rule2.equals("")) {
                 String tooltip = "Do not catch NullPointerException or any of its ancestors";
                 syntaxhighlighter.highlight(editor, document, lce.get("method_rule2_line"), lce.get("method_rule2_column"), lce.get("method_rule2_end"), tooltip);
@@ -94,7 +79,7 @@ public class ViolationDetectorSystem {
             methodLevel.catchClause.clear();
             methodLevel.forCounter.clear();
 
-            rule3 = classLevelDetector.rule1Detection();
+            String rule3 = classLevelDetector.rule1Detection();
             if (!rule3.equals("")) {
                 String tooltip = "Classes that define an equals() method must also define a hashCode() method";
                 syntaxhighlighter.highlight(editor, document, lce.get("class_rule1_line"), lce.get("class_rule1_column"), lce.get("class_rule1_end"), tooltip);
@@ -107,7 +92,7 @@ public class ViolationDetectorSystem {
             }
             classLevel.methoddeclarations.clear();
 
-            rule4 = classLevelDetector.rule2Detection();
+            String rule4 = classLevelDetector.rule2Detection();
             if (!rule4.equals("")) {
                 String tooltip = "Do not return references to private mutable class members";
                 syntaxhighlighter.highlight(editor, document, lce.get("class_rule2_line"), lce.get("class_rule2_column"), lce.get("class_rule2_end"), tooltip);
@@ -122,7 +107,7 @@ public class ViolationDetectorSystem {
             classLevel.ClassVarNonPrimitiveList.clear();
             methodLevel.returnstatementlist.clear();
 
-            rule5 = packageLevelDetector.rule1Detection();
+            String rule5 = packageLevelDetector.rule1Detection();
             if (!rule5.equals("")) {
                 String tooltip = "Do not invoke Thread.run()";
                 syntaxhighlighter.highlight(editor, document, lce.get("package_rule1_line"), lce.get("package_rule1_column"), lce.get("package_rule1_end"), tooltip);
@@ -137,7 +122,7 @@ public class ViolationDetectorSystem {
             packageLevel.ImplementedInterfaces.clear();
             methodLevel.methodCalls.clear();
 
-            rule6 = packageLevelDetector.rule2Detection();
+            String rule6 = packageLevelDetector.rule2Detection();
             if (!rule6.equals("")) {
                 String tooltip = "Do not deviate from the proper signatures of serialization methods";
                 syntaxhighlighter.highlight(editor, document, lce.get("package_rule2_line"), lce.get("package_rule2_column"), lce.get("package_rule2_end"), tooltip);
@@ -152,7 +137,7 @@ public class ViolationDetectorSystem {
             packageLevel.ImplementedInterfaces.clear();
             classLevel.methodSignatures.clear();
 
-            rule7 = classLevelDetector.rule4Detection();
+            String rule7 = classLevelDetector.rule4Detection();
             if (!rule7.equals("")) {
                 String tooltip = "Prevent class initialization cycles";
                 syntaxhighlighter.highlight(editor, document, lce.get("class_rule4_line"), lce.get("class_rule4_column"), lce.get("class_rule4_end"), tooltip);
@@ -167,7 +152,7 @@ public class ViolationDetectorSystem {
             classLevel.clssvardeclarations.clear();
             classLevel.constructorAssignStmt.clear();
 
-            rule8 = classLevelDetector.rule3Detection();
+            String rule8 = classLevelDetector.rule3Detection();
             if (!rule8.equals("")) {
                 String tooltip = "Limit accessibility of fields";
                 syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
@@ -186,7 +171,7 @@ public class ViolationDetectorSystem {
             methodLevel.AssignExprlist.clear();
             methodLevel.UnaryExpressionslist.clear();
 
-            rule9 = methodLevelDetector.rule3Detection();
+            String rule9 = methodLevelDetector.rule3Detection();
             if (!rule9.equals("")) {
                 String tooltip = "Do not throw RuntimeException, Exception, or Throwable";
                 syntaxhighlighter.highlight(editor, document, lce.get("method_rule3_line"), lce.get("method_rule3_column"), lce.get("method_rule3_end"), tooltip);
@@ -199,7 +184,7 @@ public class ViolationDetectorSystem {
             }
             methodLevel.throwStatement.clear();
 
-            rule10 = methodLevelDetector.rule4Detection();
+            String rule10 = methodLevelDetector.rule4Detection();
             if (!rule10.equals("")) {
                 String tooltip = "Do not complete abruptly from a finally block";
                 syntaxhighlighter.highlight(editor, document, lce.get("method_rule4_line"), lce.get("method_rule4_column"), lce.get("method_rule4_end"), tooltip);
@@ -212,7 +197,7 @@ public class ViolationDetectorSystem {
             }
             methodLevel.finallystmtBlock.clear();
 
-            rule11 = packageLevelDetector.rule3Detection();
+            String rule11 = packageLevelDetector.rule3Detection();
             if (!rule11.equals("")) {
                 String tooltip = "Do not construct BigDecimal objects from floating-point literals";
                 syntaxhighlighter.highlight(editor, document, lce.get("package_rule3_line"), lce.get("package_rule3_column"), lce.get("package_rule3_end"), tooltip);
@@ -225,7 +210,7 @@ public class ViolationDetectorSystem {
             }
             methodLevel.ObjectCReationExpress.clear();
 
-            rule12 = packageLevelDetector.rule4Detection();
+            String rule12 = packageLevelDetector.rule4Detection();
             if (!rule12.equals("")) {
                 String tooltip = "Call the superclass's getPermissions() method when writing a custom class loader";
                 syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
@@ -240,7 +225,7 @@ public class ViolationDetectorSystem {
             classLevel.methoddeclarations.clear();
             methodLevel.ObjectCReationExpress.clear();
 
-            rule13 = methodLevelDetector.rule5Detection();
+            String rule13 = methodLevelDetector.rule5Detection();
             if (!rule13.equals("")) {
                 String tooltip = "Do not use the Object.equals() method to compare two arrays";
                 syntaxhighlighter.highlight(editor, document, lce.get("method_rule5_line"), lce.get("method_rule5_column"), lce.get("method_rule5_end"), tooltip);
@@ -255,7 +240,7 @@ public class ViolationDetectorSystem {
             methodLevel.equalsmethodArguments.clear();
             methodLevel.arraysList.clear();
 
-            rule14 = packageLevelDetector.rule5Detection();
+            String rule14 = packageLevelDetector.rule5Detection();
             if (!rule14.equals("")) {
                 String tooltip = "Detect and handle file-related errors";
                 syntaxhighlighter.highlight(editor, document, lce.get("package_rule5_line"), lce.get("package_rule5_column"), lce.get("package_rule5_end"), tooltip);
@@ -270,7 +255,7 @@ public class ViolationDetectorSystem {
             methodLevel.ObjectCReationExpress.clear();
             methodLevel.IfStatements.clear();
 
-            rule15 = classLevelDetector.rule5Detection();
+            String rule15 = classLevelDetector.rule5Detection();
             if (!rule15.equals("")) {
                 String tooltip = "Do not use public static nonfinal fields";
                 syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
@@ -304,7 +289,6 @@ public class ViolationDetectorSystem {
                 }
             }
         });
-        //myToolWindowContent.add(countermeasure_box);
         toolWindowSystem.addToBox(label);
     }
 
