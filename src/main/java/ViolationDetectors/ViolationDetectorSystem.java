@@ -200,7 +200,7 @@ public class ViolationDetectorSystem {
 
         String rule12 = packageLevelDetector.rule4Detection();
         if (!rule12.equals("")) {
-            String tooltip = "Call the superclass's getPermissions() method when writing a custom class loader";
+            String tooltip = "Call the super-class's getPermissions() method when writing a custom class loader";
             syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
             classLevel.methoddeclarations.clear();
             methodLevel.ObjectCReationExpress.clear();
@@ -242,7 +242,7 @@ public class ViolationDetectorSystem {
 
         String rule15 = classLevelDetector.rule5Detection();
         if (!rule15.equals("")) {
-            String tooltip = "Do not use public static nonfinal fields";
+            String tooltip = "Do not use public static non-final fields";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
             classLevel.clssvardeclarations.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ10J");
