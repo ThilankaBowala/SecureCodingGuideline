@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class PackageLevelCodeFragment extends AnAction {
     public List<String> ImplementedInterfaces = new ArrayList<String>();
+
     public PackageLevelCodeFragment() {
 //        JavaParser.getStaticConfiguration().setAttributeComments(false);
         CompilationUnit cu;
@@ -31,14 +32,14 @@ public class PackageLevelCodeFragment extends AnAction {
         ClassVisitor.visit(cu, ImplementedInterfaces);
     }
 
-    private static class ClassVisitor extends VoidVisitorAdapter<List<String>>
-    {
+    private static class ClassVisitor extends VoidVisitorAdapter<List<String>> {
         @Override
         public void visit(ClassOrInterfaceType n, List<String> arg) {
             super.visit(n, arg);
             arg.add(n.getNameAsString());
         }
     }
+
     @Override
     public void actionPerformed(AnActionEvent e) {
     }
