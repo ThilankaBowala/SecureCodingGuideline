@@ -13,7 +13,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassLevelViolationDetector extends AnAction implements  ViolationDetector {
+public class ClassLevelViolationDetector extends AnAction implements ViolationDetector {
     String valueMET09J = "";
     String valueOBJ05J = "";
     String valueOBJ01J = "";
@@ -26,44 +26,45 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
     String rule4Detection;
     String rule5Detection;
 
-    public String rule1Detection(){
+    public String rule1Detection() {
         try {
-            rule1Detection=   detectViolationMET09J();
+            rule1Detection = detectViolationMET09J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule1Detection;
     }
-    public String rule2Detection(){
+
+    public String rule2Detection() {
         try {
-            rule2Detection=   detectViolationOBJ05J();
+            rule2Detection = detectViolationOBJ05J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule2Detection;
     }
 
-    public String rule3Detection(){
+    public String rule3Detection() {
         try {
-            rule3Detection=   detectViolationOBJ01J();
+            rule3Detection = detectViolationOBJ01J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule3Detection;
     }
 
-    public String rule4Detection(){
+    public String rule4Detection() {
         try {
-            rule4Detection=   detectViolationDCL00J();
+            rule4Detection = detectViolationDCL00J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule4Detection;
     }
 
-    public String rule5Detection(){
+    public String rule5Detection() {
         try {
-            rule5Detection=detectViolationOBJ10J();
+            rule5Detection = detectViolationOBJ10J();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,59 +77,59 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isviolated = false;
-        for (MethodDeclaration n:cc.methodDeclarations
-                ) {
-            if(n.getNameAsString().equals("equals")){
+        for (MethodDeclaration n : cc.methodDeclarations
+        ) {
+            if (n.getNameAsString().equals("equals")) {
                 isviolated = true;
                 lines.add(n.getName().getBegin().get().line);
                 columns.add(n.getName().getBegin().get().column);
                 ends.add(n.getName().getEnd().get().column);
             }
         }
-        for (MethodDeclaration n:cc.methodDeclarations
-                ) {
-            if(n.getNameAsString().equals("hashCode")){
+        for (MethodDeclaration n : cc.methodDeclarations
+        ) {
+            if (n.getNameAsString().equals("hashCode")) {
                 isviolated = false;
             }
         }
-        if(isviolated){
+        if (isviolated) {
             lce.put("class_rule1_line", lines);
             lce.put("class_rule1_column", columns);
             lce.put("class_rule1_end", ends);
             valueMET09J = "MET09-J violated at line " + lines;
-            return  valueMET09J;
+            return valueMET09J;
         }
         valueMET09J = "";
-        return  valueMET09J;
+        return valueMET09J;
     }
 
     public String detectViolationOBJ05J() {
-        MethodLevelCodeFragment mcf =new MethodLevelCodeFragment();
+        MethodLevelCodeFragment mcf = new MethodLevelCodeFragment();
         ClassLevelCodeFragment ccf = new ClassLevelCodeFragment();
         ArrayList<Integer> lines = new ArrayList<Integer>();
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isviolated = false;
-        for (String n:ccf.ClassVarNonPrimitiveList
-                ) {
-                    for (ReturnStmt r:mcf.returnstatementlist
-                            ) {
-                        if(r.getChildNodes().get(0).toString().equals(n.split("_")[1])){
-                            isviolated = true;
-                            lines.add(r.getBegin().get().line);
-                            columns.add(r.getBegin().get().column);
-                            ends.add(r.getEnd().get().column);
-                        }
-                    }
+        for (String n : ccf.ClassVarNonPrimitiveList
+        ) {
+            for (ReturnStmt r : mcf.returnstatementlist
+            ) {
+                if (r.getChildNodes().get(0).toString().equals(n.split("_")[1])) {
+                    isviolated = true;
+                    lines.add(r.getBegin().get().line);
+                    columns.add(r.getBegin().get().column);
+                    ends.add(r.getEnd().get().column);
                 }
-        if(isviolated){
+            }
+        }
+        if (isviolated) {
             lce.put("class_rule2_line", lines);
             lce.put("class_rule2_column", columns);
             lce.put("class_rule2_end", ends);
-            valueOBJ05J="OBJ05-J violated at line " + lines;
+            valueOBJ05J = "OBJ05-J violated at line " + lines;
             return valueOBJ05J;
         }
-        valueOBJ05J= "";
+        valueOBJ05J = "";
         return valueOBJ05J;
     }
 
@@ -143,13 +144,13 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         boolean isviolated = false;
         if (!ccf.classVarDeclarations.isEmpty()) {
             for (FieldDeclaration member : ccf.classVarDeclarations) {
-                if(member.getVariable(0).getTypeAsString().equals(ccf.className)){
+                if (member.getVariable(0).getTypeAsString().equals(ccf.className)) {
                     constvarfound = true;
                     lines.add(member.getBegin().get().line);
                     columns.add(member.getBegin().get().column);
                     ends.add(member.getEnd().get().column);
                 }
-                if(constvarfound && !member.getVariable(0).getTypeAsString().equals(ccf.className)){
+                if (constvarfound && !member.getVariable(0).getTypeAsString().equals(ccf.className)) {
                     varnamestocheck.add(member.getVariable(0).getNameAsString());
                 }
             }
@@ -159,16 +160,16 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
                 assignExpInCons.add(member.getValue().toString());
             }
         }
-        for (String x: varnamestocheck
-                ) {
-            for (String y: assignExpInCons
-                    ) {
-                if(y.contains(x)){
+        for (String x : varnamestocheck
+        ) {
+            for (String y : assignExpInCons
+            ) {
+                if (y.contains(x)) {
                     isviolated = true;
                 }
             }
         }
-        if(isviolated){
+        if (isviolated) {
             lce.put("class_rule4_line", lines);
             lce.put("class_rule4_column", columns);
             lce.put("class_rule4_end", ends);
@@ -180,41 +181,41 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
     }
 
     public String detectViolationOBJ01J() {
-        MethodLevelCodeFragment mcf =new MethodLevelCodeFragment();
+        MethodLevelCodeFragment mcf = new MethodLevelCodeFragment();
         ClassLevelCodeFragment ccf = new ClassLevelCodeFragment();
         ArrayList<Integer> lines = new ArrayList<Integer>();
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isViolated = false;
-        for (FieldDeclaration fd:ccf.classVarDeclarations
+        for (FieldDeclaration fd : ccf.classVarDeclarations
+        ) {
+            if (fd.isPublic()) {
+                for (ReturnStmt returnitem : mcf.returnstatementlist
                 ) {
-            if(fd.isPublic()){
-                for (ReturnStmt returnitem:mcf.returnstatementlist
-                        ) {
-                    if(returnitem.getChildNodes().get(0).toString().equals(fd.getVariable(0).toString())){
+                    if (returnitem.getChildNodes().get(0).toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
                     }
                 }
-                for (AssignExpr assignex: mcf.AssignExprlist
-                        ) {
-                    if(assignex.getTarget().toString().equals(fd.getVariable(0).toString())){
+                for (AssignExpr assignex : mcf.AssignExprlist
+                ) {
+                    if (assignex.getTarget().toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
                     }
                 }
-                for (UnaryExpr unaryex: mcf.UnaryExpressionslist
-                        ) {
-                    if(unaryex.getExpression().toString().equals(fd.getVariable(0).toString())){
+                for (UnaryExpr unaryex : mcf.UnaryExpressionslist
+                ) {
+                    if (unaryex.getExpression().toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
                     }
                 }
-                if(isViolated){
+                if (isViolated) {
                     lines.add(fd.getBegin().get().line);
                     columns.add(fd.getBegin().get().column);
                     ends.add(fd.getEnd().get().column);
                 }
             }
         }
-        if(isViolated){
+        if (isViolated) {
             lce.put("class_rule3_line", lines);
             lce.put("class_rule3_column", columns);
             lce.put("class_rule3_end", ends);
@@ -232,7 +233,7 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         boolean isviolated = false;
         if (!ccf.classVarDeclarations.isEmpty()) {
             for (FieldDeclaration member : ccf.classVarDeclarations) {
-                if(member.isPublic() && member.isStatic() && !member.isFinal()){
+                if (member.isPublic() && member.isStatic() && !member.isFinal()) {
                     isviolated = true;
                     lines.add(member.getBegin().get().line);
                     columns.add(member.getBegin().get().column);
@@ -240,7 +241,7 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
                 }
             }
         }
-        if(isviolated){
+        if (isviolated) {
             lce.put("class_rule5_line", lines);
             lce.put("class_rule5_column", columns);
             lce.put("class_rule5_end", ends);
