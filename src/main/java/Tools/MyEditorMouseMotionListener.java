@@ -42,8 +42,7 @@ public class MyEditorMouseMotionListener implements EditorMouseMotionListener {
                 if (editor.getInlayModel().getElementAt(e.getMouseEvent().getPoint()) != null) return;
                 showtooltip(offset, editor, e);
             }
-        }
-        finally {
+        } finally {
         }
     }
 
@@ -52,14 +51,14 @@ public class MyEditorMouseMotionListener implements EditorMouseMotionListener {
         myTooltipController.cancelTooltips();
     }
 
-    public void showtooltip(int offset, Editor editor,EditorMouseEvent e){
-        SyntaxHighlighter syntaxHighlighter= new SyntaxHighlighter();
+    public void showtooltip(int offset, Editor editor, EditorMouseEvent e) {
+        SyntaxHighlighter syntaxHighlighter = new SyntaxHighlighter();
         if (!syntaxHighlighter.annotateoffsets.isEmpty()) {
             for (int i = 1; i < syntaxHighlighter.annotateoffsets.size() + 1; i++) {
                 int start = syntaxHighlighter.annotateoffsets.get(i).get(0);
                 int end = syntaxHighlighter.annotateoffsets.get(i).get(1);
-                String tooltip = syntaxHighlighter.tooltips.get(i-1);
-                if(offset>=start && offset<=end){
+                String tooltip = syntaxHighlighter.tooltips.get(i - 1);
+                if (offset >= start && offset <= end) {
                     Point p = SwingUtilities
                             .convertPoint((Component) e.getMouseEvent().getSource(),
                                     e.getMouseEvent().getPoint(),
