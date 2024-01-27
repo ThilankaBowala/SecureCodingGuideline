@@ -28,11 +28,11 @@ public class ViolationDetectorSystem {
     private static ViolationDetectorSystem instance;
     private static final ToolWindowSystem toolWindowSystem = ToolWindowSystem.getInstance();
 
-    private ViolationDetectorSystem(){
+    private ViolationDetectorSystem() {
     }
 
-    public static ViolationDetectorSystem getInstance(){
-        if(instance == null){
+    public static ViolationDetectorSystem getInstance() {
+        if (instance == null) {
             instance = new ViolationDetectorSystem();
         }
         return instance;
