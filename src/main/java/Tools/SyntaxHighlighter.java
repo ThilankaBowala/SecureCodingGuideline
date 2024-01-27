@@ -38,4 +38,9 @@ public class SyntaxHighlighter {
             e.printStackTrace();
         }
     }
+
+    public void clear () {
+        annotateoffsets.clear();
+        tooltips.clear();
+    }
 }
