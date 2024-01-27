@@ -76,7 +76,7 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isviolated = false;
-        for (MethodDeclaration n:cc.methoddeclarations
+        for (MethodDeclaration n:cc.methodDeclarations
                 ) {
             if(n.getNameAsString().equals("equals")){
                 isviolated = true;
@@ -85,7 +85,7 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
                 ends.add(n.getName().getEnd().get().column);
             }
         }
-        for (MethodDeclaration n:cc.methoddeclarations
+        for (MethodDeclaration n:cc.methodDeclarations
                 ) {
             if(n.getNameAsString().equals("hashCode")){
                 isviolated = false;
@@ -141,8 +141,8 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isviolated = false;
-        if (!ccf.clssvardeclarations.isEmpty()) {
-            for (FieldDeclaration member : ccf.clssvardeclarations) {
+        if (!ccf.classVarDeclarations.isEmpty()) {
+            for (FieldDeclaration member : ccf.classVarDeclarations) {
                 if(member.getVariable(0).getTypeAsString().equals(ccf.className)){
                     constvarfound = true;
                     lines.add(member.getBegin().get().line);
@@ -186,7 +186,7 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isViolated = false;
-        for (FieldDeclaration fd:ccf.clssvardeclarations
+        for (FieldDeclaration fd:ccf.classVarDeclarations
                 ) {
             if(fd.isPublic()){
                 for (ReturnStmt returnitem:mcf.returnstatementlist
@@ -230,8 +230,8 @@ public class ClassLevelViolationDetector extends AnAction implements  ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isviolated = false;
-        if (!ccf.clssvardeclarations.isEmpty()) {
-            for (FieldDeclaration member : ccf.clssvardeclarations) {
+        if (!ccf.classVarDeclarations.isEmpty()) {
+            for (FieldDeclaration member : ccf.classVarDeclarations) {
                 if(member.isPublic() && member.isStatic() && !member.isFinal()){
                     isviolated = true;
                     lines.add(member.getBegin().get().line);

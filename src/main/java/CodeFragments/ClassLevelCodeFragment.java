@@ -1,7 +1,6 @@
 package CodeFragments;
 
 import Tools.LiveParser;
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -24,10 +23,10 @@ import java.util.Map;
 
 public class ClassLevelCodeFragment extends AnAction {
     public Map<String, Integer> methodNames = new HashMap<String, Integer>();
-    public List<MethodDeclaration> methoddeclarations = new ArrayList<MethodDeclaration>();
+    public List<MethodDeclaration> methodDeclarations = new ArrayList<MethodDeclaration>();
     public List<String> ClassVarNonPrimitiveList = new ArrayList<String>();
     public Map<String, ArrayList<Integer>> methodSignatures = new HashMap<>();
-    public List<FieldDeclaration> clssvardeclarations = new ArrayList<FieldDeclaration>();
+    public List<FieldDeclaration> classVarDeclarations = new ArrayList<FieldDeclaration>();
     public List<AssignExpr> constructorAssignStmt = new ArrayList<AssignExpr>();
     public static String className = "";
 
@@ -41,13 +40,13 @@ public class ClassLevelCodeFragment extends AnAction {
         VoidVisitor<Map<String, Integer>> MethodVisitor = new MethodVisitor();
         MethodVisitor.visit(cu, methodNames);
         VoidVisitor<List<MethodDeclaration>> MethodVisitorNode = new MethodVisitorNode();
-        MethodVisitorNode.visit(cu, methoddeclarations);
+        MethodVisitorNode.visit(cu, methodDeclarations);
         VoidVisitor<List<String>> ClassVarNonPrimitiveVisitor = new ClassVarNonPrimitiveVisitor();
         ClassVarNonPrimitiveVisitor.visit(cu, ClassVarNonPrimitiveList);
         VoidVisitor<Map<String, ArrayList<Integer>>> MethodDeclarationVisitor = new MethodDeclarationVisitor();
         MethodDeclarationVisitor.visit(cu,methodSignatures);
         VoidVisitor<List<FieldDeclaration>> ClassVarVisitor = new ClassVarVisitor();
-        ClassVarVisitor.visit(cu, clssvardeclarations);
+        ClassVarVisitor.visit(cu, classVarDeclarations);
         VoidVisitor<List<AssignExpr>> ConstructorVisitor = new ConstructorVisitor();
         ConstructorVisitor.visit(cu, constructorAssignStmt);
     }

@@ -182,13 +182,13 @@ public class PackageLevelViolationDetector extends AnAction implements  Violatio
         ArrayList<Integer> ends = new ArrayList<Integer>();
         int lineNo;
 
-        if((!cc2.methoddeclarations.isEmpty())&&(!cc1.ObjectCReationExpress.isEmpty())){
-            for(int i=0;i<cc2.methoddeclarations.size();i++)
+        if((!cc2.methodDeclarations.isEmpty())&&(!cc1.ObjectCReationExpress.isEmpty())){
+            for(int i = 0; i<cc2.methodDeclarations.size(); i++)
             {
-                if(cc2.methoddeclarations.get(i).getNameAsString().equals("getPermissions"))
+                if(cc2.methodDeclarations.get(i).getNameAsString().equals("getPermissions"))
                 {
-                    int getPermissions_start=cc2.methoddeclarations.get(i).getBody().get().getRange().get().begin.line;
-                    int getPermissions_end=cc2.methoddeclarations.get(i).getBody().get().getRange().get().end.line;
+                    int getPermissions_start=cc2.methodDeclarations.get(i).getBody().get().getRange().get().begin.line;
+                    int getPermissions_end=cc2.methodDeclarations.get(i).getBody().get().getRange().get().end.line;
                     for(int j=0;j<cc1.ObjectCReationExpress.size();j++)
                     {
                         lineNo = cc1.ObjectCReationExpress.get(j).getBegin().get().line;

@@ -80,13 +80,13 @@ public class ViolationDetectorSystem {
         if (!rule3.equals("")) {
             String tooltip = "Classes that define an equals() method must also define a hashCode() method";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule1_line"), lce.get("class_rule1_column"), lce.get("class_rule1_end"), tooltip);
-            classLevel.methoddeclarations.clear();
+            classLevel.methodDeclarations.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("MET09J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule3, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/MET09-J.+Classes+that+define+an+equals%28%29+method+must+also+define+a+hashCode%28%29+method");
         }
-        classLevel.methoddeclarations.clear();
+        classLevel.methodDeclarations.clear();
 
         String rule4 = classLevelDetector.rule2Detection();
         if (!rule4.equals("")) {
@@ -134,21 +134,21 @@ public class ViolationDetectorSystem {
         if (!rule7.equals("")) {
             String tooltip = "Prevent class initialization cycles";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule4_line"), lce.get("class_rule4_column"), lce.get("class_rule4_end"), tooltip);
-            classLevel.clssvardeclarations.clear();
+            classLevel.classVarDeclarations.clear();
             classLevel.constructorAssignStmt.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("DCL00J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule7, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/DCL00-J.+Prevent+class+initialization+cycles");
         }
-        classLevel.clssvardeclarations.clear();
+        classLevel.classVarDeclarations.clear();
         classLevel.constructorAssignStmt.clear();
 
         String rule8 = classLevelDetector.rule3Detection();
         if (!rule8.equals("")) {
             String tooltip = "Limit accessibility of fields";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
-            classLevel.clssvardeclarations.clear();
+            classLevel.classVarDeclarations.clear();
             methodLevel.returnstatementlist.clear();
             methodLevel.AssignExprlist.clear();
             methodLevel.UnaryExpressionslist.clear();
@@ -157,7 +157,7 @@ public class ViolationDetectorSystem {
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule8, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields");
         }
-        classLevel.clssvardeclarations.clear();
+        classLevel.classVarDeclarations.clear();
         methodLevel.returnstatementlist.clear();
         methodLevel.AssignExprlist.clear();
         methodLevel.UnaryExpressionslist.clear();
@@ -202,14 +202,14 @@ public class ViolationDetectorSystem {
         if (!rule12.equals("")) {
             String tooltip = "Call the super-class's getPermissions() method when writing a custom class loader";
             syntaxhighlighter.highlight(editor, document, lce.get("package_rule4_line"), lce.get("package_rule4_column"), lce.get("package_rule4_end"), tooltip);
-            classLevel.methoddeclarations.clear();
+            classLevel.methodDeclarations.clear();
             methodLevel.ObjectCReationExpress.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("SEC07J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule12, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/SEC07-J.+Call+the+superclass%27s+getPermissions%28%29+method+when+writing+a+custom+class+loader");
         }
-        classLevel.methoddeclarations.clear();
+        classLevel.methodDeclarations.clear();
         methodLevel.ObjectCReationExpress.clear();
 
         String rule13 = methodLevelDetector.rule5Detection();
@@ -244,14 +244,14 @@ public class ViolationDetectorSystem {
         if (!rule15.equals("")) {
             String tooltip = "Do not use public static non-final fields";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule5_line"), lce.get("class_rule5_column"), lce.get("class_rule5_end"), tooltip);
-            classLevel.clssvardeclarations.clear();
+            classLevel.classVarDeclarations.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ10J");
 
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule15, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ10-J.+Do+not+use+public+static+nonfinal+fields");
         }
-        classLevel.clssvardeclarations.clear();
+        classLevel.classVarDeclarations.clear();
 
         toolWindowSystem.addBoxes();
         toolWindowSystem.addToToolWindow(toolWindow);
