@@ -17,11 +17,11 @@ public class ToolWindowSystem {
     Box countermeasure_box = Box.createVerticalBox();
     JLabel counterMeasureBoxHeading;
 
-    private ToolWindowSystem(){
+    private ToolWindowSystem() {
     }
 
-    public static ToolWindowSystem getInstance(){
-        if(instance == null){
+    public static ToolWindowSystem getInstance() {
+        if (instance == null) {
             instance = new ToolWindowSystem();
         }
         return instance;
