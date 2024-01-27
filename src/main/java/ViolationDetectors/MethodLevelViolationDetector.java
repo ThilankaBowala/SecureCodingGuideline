@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MethodLevelViolationDetector extends AnAction implements ViolationDetector {
 
@@ -150,11 +148,11 @@ public class MethodLevelViolationDetector extends AnAction implements ViolationD
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isViolated = false;
-        if (!cc.finallystmtBlock.isEmpty()) {
-            for (int i = 1; i < cc.finallystmtBlock.size() + 1; i++) {
-                lines.add(cc.finallystmtBlock.get(i).get(0));
-                columns.add(cc.finallystmtBlock.get(i).get(1));
-                ends.add(cc.finallystmtBlock.get(i).get(2));
+        if (!cc.finallyStmtBlock.isEmpty()) {
+            for (int i = 1; i < cc.finallyStmtBlock.size() + 1; i++) {
+                lines.add(cc.finallyStmtBlock.get(i).get(0));
+                columns.add(cc.finallyStmtBlock.get(i).get(1));
+                ends.add(cc.finallyStmtBlock.get(i).get(2));
                 isViolated = true;
             }
         }
@@ -174,12 +172,12 @@ public class MethodLevelViolationDetector extends AnAction implements ViolationD
         ArrayList<Integer> ends = new ArrayList<Integer>();
         MethodLevelCodeFragment cc = new MethodLevelCodeFragment();
         boolean isViolated = false;
-        if (!cc.equalsmethodArguments.isEmpty()) {
+        if (!cc.equalsMethodArguments.isEmpty()) {
             for (int i = 0; i < cc.arraysList.size(); i++) {
-                if (cc.equalsmethodArguments.containsKey(cc.arraysList.get(i))) {
-                    lines.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(0));
-                    columns.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(1));
-                    ends.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(2));
+                if (cc.equalsMethodArguments.containsKey(cc.arraysList.get(i))) {
+                    lines.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(0));
+                    columns.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(1));
+                    ends.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(2));
                     isViolated = true;
                 }
             }

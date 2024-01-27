@@ -1,7 +1,6 @@
 package CodeFragments;
 
 import Tools.LiveParser;
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -24,14 +23,14 @@ public class MethodLevelCodeFragment extends AnAction {
 
     public Map<Integer, ArrayList<Integer>> catchClause = new HashMap<Integer, ArrayList<Integer>>();
     public Map<Integer, ArrayList<Integer>> forCounter = new HashMap<Integer, ArrayList<Integer>>();
-    public List<ReturnStmt> returnstatementlist = new ArrayList<ReturnStmt>();
+    public List<ReturnStmt> returnStatementList = new ArrayList<ReturnStmt>();
     public Map<Integer, ArrayList<Integer>> methodCalls = new HashMap<Integer, ArrayList<Integer>>();
-    public List<UnaryExpr> UnaryExpressionslist = new ArrayList<UnaryExpr>();
-    public List<AssignExpr> AssignExprlist = new ArrayList<AssignExpr>();
+    public List<UnaryExpr> unaryExpressionslist = new ArrayList<UnaryExpr>();
+    public List<AssignExpr> assignExprlist = new ArrayList<AssignExpr>();
     public Map<Integer, ArrayList<Integer>> throwStatement = new HashMap<Integer, ArrayList<Integer>>();
-    public Map<Integer, ArrayList<Integer>> finallystmtBlock = new HashMap<Integer, ArrayList<Integer>>();
+    public Map<Integer, ArrayList<Integer>> finallyStmtBlock = new HashMap<Integer, ArrayList<Integer>>();
     public List<ObjectCreationExpr> ObjectCReationExpress = new ArrayList<>();
-    public Map<String, ArrayList<Integer>> equalsmethodArguments = new HashMap<String, ArrayList<Integer>>();
+    public Map<String, ArrayList<Integer>> equalsMethodArguments = new HashMap<String, ArrayList<Integer>>();
     public List<String> arraysList = new ArrayList<>();
     public List<IfStmt> IfStatements = new ArrayList<>();
     public List<MethodCallExpr> calledMethodNames = new ArrayList<>();
@@ -52,22 +51,22 @@ public class MethodLevelCodeFragment extends AnAction {
         BlockVisitor.visit(cu, forCounter);
 
         VoidVisitor<List<ReturnStmt>> ReturnVisitor = new ReturnVisitor();
-        ReturnVisitor.visit(cu, returnstatementlist);
+        ReturnVisitor.visit(cu, returnStatementList);
 
         VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> MethodCallVisitor = new MethodCallVisitor();
         MethodCallVisitor.visit(cu, methodCalls);
 
         VoidVisitor<List<UnaryExpr>> UnaryExprVisitor = new UnaryExprVisitor();
-        UnaryExprVisitor.visit(cu, UnaryExpressionslist);
+        UnaryExprVisitor.visit(cu, unaryExpressionslist);
 
         VoidVisitor<List<AssignExpr>> AssignExprVisitor = new AssignExprVisitor();
-        AssignExprVisitor.visit(cu, AssignExprlist);
+        AssignExprVisitor.visit(cu, assignExprlist);
 
         VoidVisitor<Map<Integer, ArrayList<Integer>>> ThrowVisitor = new ThrowStatementVisitor();
         ThrowVisitor.visit(cu, throwStatement);
 
         VoidVisitor<Map<Integer, ArrayList<Integer>>> finallyBlockVisitor = new FinallyBlockVisitor();
-        finallyBlockVisitor.visit(cu, finallystmtBlock);
+        finallyBlockVisitor.visit(cu, finallyStmtBlock);
 
         VoidVisitor<List<ObjectCreationExpr>> ObjectCreationExprVisitor = new ObjectCreationExprVisitor();
         ObjectCreationExprVisitor.visit(cu, ObjectCReationExpress);
@@ -76,7 +75,7 @@ public class MethodLevelCodeFragment extends AnAction {
         ArrayListVisitor.visit(cu, arraysList);
 
         VoidVisitor<Map<String, ArrayList<Integer>>> equalVisitor = new EqualsVisitor();
-        equalVisitor.visit(cu, equalsmethodArguments);
+        equalVisitor.visit(cu, equalsMethodArguments);
 
         VoidVisitor<List<IfStmt>> IfStatementVisitor = new IfStatementVisitor();
         IfStatementVisitor.visit(cu, IfStatements);

@@ -93,14 +93,14 @@ public class ViolationDetectorSystem {
             String tooltip = "Do not return references to private mutable class members";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule2_line"), lce.get("class_rule2_column"), lce.get("class_rule2_end"), tooltip);
             classLevel.ClassVarNonPrimitiveList.clear();
-            methodLevel.returnstatementlist.clear();
+            methodLevel.returnStatementList.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ05J");
             JLabel link = new JLabel(("Click here for more details"));
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule4, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ05-J.+Do+not+return+references+to+private+mutable+class+members");
         }
         classLevel.ClassVarNonPrimitiveList.clear();
-        methodLevel.returnstatementlist.clear();
+        methodLevel.returnStatementList.clear();
 
         String rule5 = packageLevelDetector.rule1Detection();
         if (!rule5.equals("")) {
@@ -149,18 +149,18 @@ public class ViolationDetectorSystem {
             String tooltip = "Limit accessibility of fields";
             syntaxhighlighter.highlight(editor, document, lce.get("class_rule3_line"), lce.get("class_rule3_column"), lce.get("class_rule3_end"), tooltip);
             classLevel.classVarDeclarations.clear();
-            methodLevel.returnstatementlist.clear();
-            methodLevel.AssignExprlist.clear();
-            methodLevel.UnaryExpressionslist.clear();
+            methodLevel.returnStatementList.clear();
+            methodLevel.assignExprlist.clear();
+            methodLevel.unaryExpressionslist.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("OBJ01J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule8, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/OBJ01-J.+Limit+accessibility+of+fields");
         }
         classLevel.classVarDeclarations.clear();
-        methodLevel.returnstatementlist.clear();
-        methodLevel.AssignExprlist.clear();
-        methodLevel.UnaryExpressionslist.clear();
+        methodLevel.returnStatementList.clear();
+        methodLevel.assignExprlist.clear();
+        methodLevel.unaryExpressionslist.clear();
 
         String rule9 = methodLevelDetector.rule3Detection();
         if (!rule9.equals("")) {
@@ -178,13 +178,13 @@ public class ViolationDetectorSystem {
         if (!rule10.equals("")) {
             String tooltip = "Do not complete abruptly from a finally block";
             syntaxhighlighter.highlight(editor, document, lce.get("method_rule4_line"), lce.get("method_rule4_column"), lce.get("method_rule4_end"), tooltip);
-            methodLevel.finallystmtBlock.clear();
+            methodLevel.finallyStmtBlock.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("ERR04J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule10, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/ERR04-J.+Do+not+complete+abruptly+from+a+finally+block");
         }
-        methodLevel.finallystmtBlock.clear();
+        methodLevel.finallyStmtBlock.clear();
 
         String rule11 = packageLevelDetector.rule3Detection();
         if (!rule11.equals("")) {
@@ -216,14 +216,14 @@ public class ViolationDetectorSystem {
         if (!rule13.equals("")) {
             String tooltip = "Do not use the Object.equals() method to compare two arrays";
             syntaxhighlighter.highlight(editor, document, lce.get("method_rule5_line"), lce.get("method_rule5_column"), lce.get("method_rule5_end"), tooltip);
-            methodLevel.equalsmethodArguments.clear();
+            methodLevel.equalsMethodArguments.clear();
             methodLevel.arraysList.clear();
             String CounterMeasure = Countermeasure_data.CountermeasureData.get("EXP02J");
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);
             setRuleDescription(rule13, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/EXP02-J.+Do+not+use+the+Object.equals%28%29+method+to+compare+two+arrays");
         }
-        methodLevel.equalsmethodArguments.clear();
+        methodLevel.equalsMethodArguments.clear();
         methodLevel.arraysList.clear();
 
         String rule14 = packageLevelDetector.rule5Detection();

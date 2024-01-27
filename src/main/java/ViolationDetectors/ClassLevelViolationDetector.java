@@ -112,7 +112,7 @@ public class ClassLevelViolationDetector extends AnAction implements ViolationDe
         boolean isviolated = false;
         for (String n : ccf.ClassVarNonPrimitiveList
         ) {
-            for (ReturnStmt r : mcf.returnstatementlist
+            for (ReturnStmt r : mcf.returnStatementList
             ) {
                 if (r.getChildNodes().get(0).toString().equals(n.split("_")[1])) {
                     isviolated = true;
@@ -190,19 +190,19 @@ public class ClassLevelViolationDetector extends AnAction implements ViolationDe
         for (FieldDeclaration fd : ccf.classVarDeclarations
         ) {
             if (fd.isPublic()) {
-                for (ReturnStmt returnitem : mcf.returnstatementlist
+                for (ReturnStmt returnitem : mcf.returnStatementList
                 ) {
                     if (returnitem.getChildNodes().get(0).toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
                     }
                 }
-                for (AssignExpr assignex : mcf.AssignExprlist
+                for (AssignExpr assignex : mcf.assignExprlist
                 ) {
                     if (assignex.getTarget().toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
                     }
                 }
-                for (UnaryExpr unaryex : mcf.UnaryExpressionslist
+                for (UnaryExpr unaryex : mcf.unaryExpressionslist
                 ) {
                     if (unaryex.getExpression().toString().equals(fd.getVariable(0).toString())) {
                         isViolated = true;
