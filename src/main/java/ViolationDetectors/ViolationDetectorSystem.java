@@ -298,9 +298,7 @@ public class ViolationDetectorSystem {
                         try {
                             URI uri = new URI(url);
                             desktop.browse(uri);
-                        } catch (IOException ex) {
-                            System.out.println(ex.getMessage());
-                        } catch (URISyntaxException ex) {
+                        } catch (IOException | URISyntaxException ex) {
                             System.out.println(ex.getMessage());
                         }
                     } else {
