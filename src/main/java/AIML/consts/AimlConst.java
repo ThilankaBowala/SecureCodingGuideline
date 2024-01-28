@@ -20,7 +20,7 @@ public class AimlConst {
             .toAbsolutePath().toString();
     public static final String default_bot_name = "SecureCodingGuidelineBot";
     public static final String error_bot_response = "Something is wrong with my brain.";
-    public static final String default_bot_response = "I have no answer for that.";
+    public static final String default_bot_response = "";
     public static final String default_topic = "unknown";
     public static final String default_that = "unknown";
     public static final String null_input = "#NORESP";
