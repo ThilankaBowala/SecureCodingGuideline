@@ -64,8 +64,8 @@ public class LiveParser extends AnAction {
 
             toolWindowSystem.setupScrollArea();
 
-            SyntaxHighlighter syntaxhighlighter = new SyntaxHighlighter();
-            syntaxhighlighter.clear();
+            SyntaxHighlighter syntaxHighlighter = new SyntaxHighlighter();
+            syntaxHighlighter.clear();
 
             ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Secure Coding Plugin");
             toolWindowSystem.clearToolWindow(toolWindow);
@@ -76,7 +76,7 @@ public class LiveParser extends AnAction {
 
             try {
                 toolWindowSystem.init();
-                violationDetectorSystem.detectBasicViolations(editor, document, syntaxhighlighter, toolWindow);
+                violationDetectorSystem.detectBasicViolations(editor, document, syntaxHighlighter, toolWindow);
             } catch (Exception e) {
                 e.printStackTrace();
             }
