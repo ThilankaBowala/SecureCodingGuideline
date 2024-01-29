@@ -2,10 +2,7 @@ package AIML.bot;
 
 import AIML.consts.AimlConst;
 import AIML.core.GraphMaster;
-import AIML.entity.AimlCategory;
-import AIML.entity.AimlMap;
-import AIML.entity.AimlSet;
-import AIML.entity.AimlSubstitution;
+import AIML.entity.*;
 import AIML.loaders.AimlLoader;
 import AIML.loaders.MapLoader;
 import AIML.loaders.SetLoader;
@@ -48,9 +45,9 @@ public class BotImpl {
         detector = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
     }
 
-    public List<String> detectViolations(String editorText) {
-        var editorTextTrimmed = editorText == null || editorText.isEmpty() ? AimlConst.null_input : editorText.trim();
-        List<String> violations = bot.matchedViolations(editorTextTrimmed, customViolationsDetectorContext);
+    public List<Violation> detectViolations(String editorText) {
+        editorText = editorText == null || editorText.isEmpty() ? AimlConst.null_input : editorText;
+        List<Violation> violations = bot.matchedViolations(editorText, customViolationsDetectorContext);
 //        customViolationsDetectorContext.newState(editorTextTrimmed, violations);
         return violations;
     }
@@ -83,14 +80,16 @@ public class BotImpl {
         return validate(getRootDir()) && validate(getAimlFolder());
     }
 
-    public List<String> matchedViolations(String editorText, CustomViolationsDetectorContext state) {
-        //todo: generate error codes here
+    public List<Violation> matchedViolations(String editorText, CustomViolationsDetectorContext state) {
         var editorLines = detector.linesSplit(editorText);
-        var detectedViolations = new ArrayList<String>();
-        for (String editorLine : editorLines) {
+        var detectedViolations = new ArrayList<Violation>();
+        for (int lineNumber=0; lineNumber<editorLines.length; lineNumber++) {
+            String editorLine = editorLines[lineNumber];
             var match = detectCodeMatches(editorLine, state);
             if(!match.isEmpty()) {
-                detectedViolations.add(match);
+                var editorLineNumber = lineNumber + 1;
+                var violation = new Violation(match, editorLineNumber);
+                detectedViolations.add(violation);
             }
         }
 

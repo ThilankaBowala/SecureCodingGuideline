@@ -16,6 +16,27 @@ public class SyntaxHighlighter {
     public static Map<Integer, ArrayList<Integer>> annotateoffsets = new HashMap<>();
     public static List<String> tooltips = new ArrayList<String>();
 
+    public void highlight(Editor editor, Document document, int line, int column, int end, String tooltip) {
+        TextAttributes x = new TextAttributes();
+        x.setBackgroundColor(Color.orange);
+        x.setEffectColor(Color.red);
+        x.setEffectType(EffectType.WAVE_UNDERSCORE);
+        try {
+            int lineStartOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) column - 1;
+            int lineEndOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) end;
+            annotateoffsets.put(annotateoffsets.size() + 1, new ArrayList<Integer>() {{
+                add(lineStartOffset);
+                add(lineEndOffset);
+            }});
+            tooltips.add(tooltip);
+            editor.getMarkupModel().addRangeHighlighter(
+                    lineStartOffset, lineEndOffset, 3333, x, HighlighterTargetArea.EXACT_RANGE
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void highlight(Editor editor, Document document, ArrayList line, ArrayList column, ArrayList end, String tooltip) {
         TextAttributes x = new TextAttributes();
         x.setBackgroundColor(Color.orange);

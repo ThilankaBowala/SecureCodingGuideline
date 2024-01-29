@@ -1,6 +1,7 @@
 package CustomViolationsDetectors;
 
 import AIML.bot.BotImpl;
+import AIML.entity.Violation;
 import Countermeasures.Countermeasures_data;
 import Tools.SyntaxHighlighter;
 import Tools.ToolWindowSystem;
@@ -46,18 +47,19 @@ public class CustomViolationsDetectorSystem {
         Countermeasures_data Countermeasure_data = new Countermeasures_data();
         String editorText = document.getText();
 
-        List<String> violations = aimlBotInstance.detectViolations(editorText);
+        List<Violation> violations = aimlBotInstance.detectViolations(editorText);
 
         if(!violations.isEmpty()){
             for (int i=0; i<violations.size(); i++)
             {
-                String violation = violations.get(i);
-                String tooltip = violation;
-//            syntaxHighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
+                Violation violation = violations.get(i);
+                var violationCode = violation.getViolationCode();
+                String tooltip = violationCode;
+                syntaxHighlighter.highlight(editor, document, violation.getEditorLineNumber(), 1, 5, tooltip);
                 String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
                 JLabel link = new JLabel("Click here for more details");
                 link.setHorizontalAlignment(JLabel.CENTER);
-                setRuleDescription(violation, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters");
+                setRuleDescription(violationCode, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters");
             }
         }
 

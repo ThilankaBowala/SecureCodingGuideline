@@ -45,17 +45,14 @@ public class GraphMaster {
     /**
      * Split an input into an array of sentences based on sentence-splitting characters.
      *
-     * @param line input text
+     * @param editorText input text
      * @return array of sentences
      */
-    public String[] linesSplit(String line) {
-        line = line.replace("。", ".")
+    public String[] linesSplit(String editorText) {
+        editorText = editorText.replace("。", ".")
                 .replace("？", "?")
-                .replace("!", "!")
-                .replaceAll("(\r\n|\n\r|\r|\n)", " ");
-        var result = line.split("[.!?]");
-        for (int i = 0; i < result.length; i++)
-            result[i] = result[i].trim();
+                .replace("!", "!");
+        var result = editorText.split("[\\r\\n|\\n\\r|\\r|\\n]");
         return result;
     }
 
