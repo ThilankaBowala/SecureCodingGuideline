@@ -19,6 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Method level code fragment
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Did code refactoring on 28/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class MethodLevelCodeFragment extends AnAction {
 
     public Map<Integer, ArrayList<Integer>> catchClause = new HashMap<Integer, ArrayList<Integer>>();

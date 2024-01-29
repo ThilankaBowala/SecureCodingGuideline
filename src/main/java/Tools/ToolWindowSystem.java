@@ -9,6 +9,18 @@ import com.intellij.ui.content.ContentFactory;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Tool window functions
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Refactoring, Added syntax highlighting for custom detector on 29/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class ToolWindowSystem {
     private static ToolWindowSystem instance;
     JLabel title = new JLabel();

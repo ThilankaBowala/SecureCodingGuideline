@@ -15,6 +15,18 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Editor Mouse Motion Listener
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Refactoring, on 29/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class MyEditorMouseMotionListener implements EditorMouseMotionListener {
 
     private TooltipController myTooltipController;

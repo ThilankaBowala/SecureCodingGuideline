@@ -12,6 +12,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Syntax highlighter functions
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Refactoring, Added syntax highlighting for custom detector on 29/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class SyntaxHighlighter {
     public static Map<Integer, ArrayList<Integer>> annotateoffsets = new HashMap<>();
     public static List<String> tooltips = new ArrayList<String>();
