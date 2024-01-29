@@ -25,39 +25,34 @@ import java.util.regex.Pattern;
  */
 public class BotImpl {
 
-    private final GraphMaster brain;
+    private final GraphMaster detector;
     private static BotImpl bot;
 
     private final String rootDir;
-    private ChatContext chatContext;
-    private String name = AimlConst.default_bot_name;
+    private CustomViolationsDetectorContext customViolationsDetectorContext;
 
     public static BotImpl getInstance() {
         if (bot == null) {
             bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\AIML\\ExampleGuidelines\\"); //todo
+            bot.wakeUp();
         }
         return bot;
     }
 
-    public Optional<String> checkMatches(String editorText) {
-        bot.wakeUp();
-        return bot.process(editorText);
-    }
-
     private BotImpl(String rootDir) {
         this.rootDir = rootDir;
-        this.chatContext = new ChatContext();
+        this.customViolationsDetectorContext = new CustomViolationsDetectorContext();
         var aimlSets = loadSets();
         var aimlMaps = loadMaps();
         var aimlCategories = loadAiml();
-        brain = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
+        detector = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
     }
 
-    private Optional<String> process(String textLine) {
-        var message = textLine == null || textLine.isEmpty() ? AimlConst.null_input : textLine.trim();
-        String response = bot.multiSentenceRespond(message, chatContext);
-        chatContext.newState(message, response);
-        return Optional.of(response);
+    public Optional<String> detectViolations(String editorText) {
+        var editorTextTrimmed = editorText == null || editorText.isEmpty() ? AimlConst.null_input : editorText.trim();
+        String violations = bot.matchedViolations(editorTextTrimmed, customViolationsDetectorContext);
+        customViolationsDetectorContext.newState(editorTextTrimmed, violations);
+        return Optional.of(violations);
     }
 
     private List<AimlCategory> preprocess(List<AimlCategory> categories, Map<String, AimlSet> aimlSets) {
@@ -88,21 +83,21 @@ public class BotImpl {
         return validate(getRootDir()) && validate(getAimlFolder());
     }
 
-    public String multiSentenceRespond(String request, ChatContext state) {
+    public String matchedViolations(String editorText, CustomViolationsDetectorContext state) {
         //todo: generate error codes here
-        var sentences = brain.sentenceSplit(request);
-        var response = new StringBuilder();
-        for (String sentence : sentences)
-            response.append(" ").append(respond(sentence, state));
-        return (response.length() == 0)
+        var editorLines = detector.linesSplit(editorText);
+        var detectedViolations = new StringBuilder();
+        for (String editorLine : editorLines)
+            detectedViolations.append(" ").append(detectCodeMatches(editorLine, state));
+        return (detectedViolations.length() == 0)
                 ? AimlConst.error_bot_response
-                : response.toString().trim();
+                : detectedViolations.toString().trim();
     }
 
-    public String respond(final String request, ChatContext state) {
+    public String detectCodeMatches(final String editorLine, CustomViolationsDetectorContext state) {
         var stars = new ArrayList<String>();
-        var pattern = brain.match(request, state.topic(), state.that(), stars);
-        return brain.respond(stars, pattern, state.topic(), state.that(), state.getPredicates());
+        var pattern = detector.match(editorLine, state.topic(), state.that(), stars);
+        return detector.detectorRespond(stars, pattern, state.topic(), state.that(), state.getPredicates());
     }
 
     private List<AimlCategory> loadAiml() {

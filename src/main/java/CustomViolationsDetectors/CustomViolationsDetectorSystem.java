@@ -42,16 +42,16 @@ public class CustomViolationsDetectorSystem {
         return instance;
     }
 
-    public void detectCustomViolations(@NotNull Editor editor, Document document, SyntaxHighlighter syntaxhighlighter, ToolWindow toolWindow) {
+    public void detectCustomViolations(@NotNull Editor editor, Document document, SyntaxHighlighter syntaxHighlighter, ToolWindow toolWindow) {
         Countermeasures_data Countermeasure_data = new Countermeasures_data();
         String editorText = document.getText();
 
-        Optional<String> matches = aimlBotInstance.checkMatches(editorText);
+        Optional<String> matches = aimlBotInstance.detectViolations(editorText);
 
         if(!matches.isEmpty()){
             String violation = matches.get();
             String tooltip = violation;
-//            syntaxhighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
+//            syntaxHighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
             String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
             JLabel link = new JLabel("Click here for more details");
             link.setHorizontalAlignment(JLabel.CENTER);

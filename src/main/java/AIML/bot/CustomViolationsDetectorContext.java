@@ -17,14 +17,14 @@ import java.util.UUID;
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
  * @since 28/1/24
  */
-public class ChatContext {
+public class CustomViolationsDetectorContext {
     private final UUID chatUid;
     private String request = "";
     private String topic = AimlConst.default_topic;
     private String that = AimlConst.default_that;
     private final Map<String, String> predicates = new HashMap<>();
 
-    public ChatContext() {
+    public CustomViolationsDetectorContext() {
         chatUid = UUID.randomUUID();
     }
 

@@ -48,7 +48,7 @@ public class GraphMaster {
      * @param line input text
      * @return array of sentences
      */
-    public String[] sentenceSplit(String line) {
+    public String[] linesSplit(String line) {
         line = line.replace("。", ".")
                 .replace("？", "?")
                 .replace("!", "!")
@@ -59,7 +59,7 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(List<String> stars, String pattern, String topic, String that, Map<String, String> predicates) {
+    public String detectorRespond(List<String> stars, String pattern, String topic, String that, Map<String, String> predicates) {
         return processor.template(stars, pattern, topic, that, predicates);
     }
 
