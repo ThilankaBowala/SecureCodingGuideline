@@ -48,11 +48,11 @@ public class BotImpl {
         detector = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
     }
 
-    public Optional<String> detectViolations(String editorText) {
+    public List<String> detectViolations(String editorText) {
         var editorTextTrimmed = editorText == null || editorText.isEmpty() ? AimlConst.null_input : editorText.trim();
-        String violations = bot.matchedViolations(editorTextTrimmed, customViolationsDetectorContext);
-        customViolationsDetectorContext.newState(editorTextTrimmed, violations);
-        return Optional.of(violations);
+        List<String> violations = bot.matchedViolations(editorTextTrimmed, customViolationsDetectorContext);
+//        customViolationsDetectorContext.newState(editorTextTrimmed, violations);
+        return violations;
     }
 
     private List<AimlCategory> preprocess(List<AimlCategory> categories, Map<String, AimlSet> aimlSets) {
@@ -83,15 +83,18 @@ public class BotImpl {
         return validate(getRootDir()) && validate(getAimlFolder());
     }
 
-    public String matchedViolations(String editorText, CustomViolationsDetectorContext state) {
+    public List<String> matchedViolations(String editorText, CustomViolationsDetectorContext state) {
         //todo: generate error codes here
         var editorLines = detector.linesSplit(editorText);
-        var detectedViolations = new StringBuilder();
-        for (String editorLine : editorLines)
-            detectedViolations.append(" ").append(detectCodeMatches(editorLine, state));
-        return (detectedViolations.length() == 0)
-                ? AimlConst.error_bot_response
-                : detectedViolations.toString().trim();
+        var detectedViolations = new ArrayList<String>();
+        for (String editorLine : editorLines) {
+            var match = detectCodeMatches(editorLine, state);
+            if(!match.isEmpty()) {
+                detectedViolations.add(match);
+            }
+        }
+
+        return detectedViolations;
     }
 
     public String detectCodeMatches(final String editorLine, CustomViolationsDetectorContext state) {

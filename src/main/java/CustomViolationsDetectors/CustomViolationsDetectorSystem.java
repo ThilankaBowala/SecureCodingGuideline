@@ -17,8 +17,8 @@ import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Class contains custom violation detection related methods
@@ -46,16 +46,19 @@ public class CustomViolationsDetectorSystem {
         Countermeasures_data Countermeasure_data = new Countermeasures_data();
         String editorText = document.getText();
 
-        Optional<String> matches = aimlBotInstance.detectViolations(editorText);
+        List<String> violations = aimlBotInstance.detectViolations(editorText);
 
-        if(!matches.isEmpty()){
-            String violation = matches.get();
-            String tooltip = violation;
+        if(!violations.isEmpty()){
+            for (int i=0; i<violations.size(); i++)
+            {
+                String violation = violations.get(i);
+                String tooltip = violation;
 //            syntaxHighlighter.highlight(editor, document, lce.get("method_rule1_line"), lce.get("method_rule1_column"), lce.get("method_rule1_end"), tooltip);
-            String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
-            JLabel link = new JLabel("Click here for more details");
-            link.setHorizontalAlignment(JLabel.CENTER);
-            setRuleDescription(violation, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters");
+                String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
+                JLabel link = new JLabel("Click here for more details");
+                link.setHorizontalAlignment(JLabel.CENTER);
+                setRuleDescription(violation, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters");
+            }
         }
 
         toolWindowSystem.addBoxes();
