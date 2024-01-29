@@ -33,7 +33,7 @@ public class BotImpl {
 
     public static BotImpl getInstance() {
         if (bot == null) {
-            bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\AIML\\ExampleGuidelines\\"); //todo
+            bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\SecureCodingGuideline\\src\\main\\resources\\sampleSecureCodingGuidelines\\"); //todo: config
             bot.wakeUp();
         }
         return bot;
