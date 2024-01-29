@@ -9,6 +9,18 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Package level violation detector
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Did code refactoring on 28/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class PackageLevelViolationDetector extends AnAction implements ViolationDetector {
     String valueTHI00J = "";
     String valueSER01J = "";
