@@ -16,14 +16,17 @@ public class SyntaxHighlighter {
     public static Map<Integer, ArrayList<Integer>> annotateoffsets = new HashMap<>();
     public static List<String> tooltips = new ArrayList<String>();
 
-    public void highlight(Editor editor, Document document, int line, int column, int end, String tooltip) {
+    public void highlight(Editor editor, Document document, int line, int firstNonWhiteSpaceIndex, int column, int end, String tooltip) {
         TextAttributes x = new TextAttributes();
         x.setBackgroundColor(Color.orange);
         x.setEffectColor(Color.red);
         x.setEffectType(EffectType.WAVE_UNDERSCORE);
         try {
-            int lineStartOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) column - 1;
-            int lineEndOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) end;
+            int lineStartOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + firstNonWhiteSpaceIndex;
+//            int lineStartOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) column - 1;
+            int lineEndOffset = document.getLineEndOffset(line-1);
+//            int lineEndOffset = document.getLineStartOffset(Math.max(0, (Integer) line - 1)) + (Integer) end;
+
             annotateoffsets.put(annotateoffsets.size() + 1, new ArrayList<Integer>() {{
                 add(lineStartOffset);
                 add(lineEndOffset);

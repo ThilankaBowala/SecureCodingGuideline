@@ -2,6 +2,7 @@ package AIML.bot;
 
 import AIML.consts.AimlConst;
 import AIML.core.GraphMaster;
+import AIML.core.StringProcessor;
 import AIML.entity.*;
 import AIML.loaders.AimlLoader;
 import AIML.loaders.MapLoader;
@@ -28,6 +29,8 @@ public class BotImpl {
     private final String rootDir;
     private CustomViolationsDetectorContext customViolationsDetectorContext;
 
+    private AIML.core.StringProcessor stringProcessor;
+
     public static BotImpl getInstance() {
         if (bot == null) {
             bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\SecureCodingGuideline\\src\\main\\resources\\sampleSecureCodingGuidelines\\"); //todo: config
@@ -39,6 +42,7 @@ public class BotImpl {
     private BotImpl(String rootDir) {
         this.rootDir = rootDir;
         this.customViolationsDetectorContext = new CustomViolationsDetectorContext();
+        this.stringProcessor = new StringProcessor();
         var aimlSets = loadSets();
         var aimlMaps = loadMaps();
         var aimlCategories = loadAiml();
@@ -88,7 +92,8 @@ public class BotImpl {
             var match = detectCodeMatches(editorLine, state);
             if(!match.isEmpty()) {
                 var editorLineNumber = lineNumber + 1;
-                var violation = new Violation(match, editorLineNumber);
+                var firstNonWhiteSpaceIndex = stringProcessor.getFirstNonWhiteSpace(editorLine);
+                var violation = new Violation(match, editorLineNumber, firstNonWhiteSpaceIndex);
                 detectedViolations.add(violation);
             }
         }
