@@ -62,7 +62,6 @@ public class AIMLProcessor {
     }
 
     public String match(final String request, String topic, String that, List<String> stars) {
-//        var request = input.toLowerCase();
         var patterns = patterns(topic);
         if (!AimlConst.default_topic.equals(topic))
             patterns.addAll(patterns(AimlConst.default_topic));
@@ -108,7 +107,7 @@ public class AIMLProcessor {
         var m = p.matcher(input);
         if (m.matches()) {
             for (int i = 0; i <= m.groupCount(); i++) {
-                if (i > 0) //skip first group because that is contain full input
+                if (i > 0) //skip first group because that is contains full input
                     stars.add(m.group(i).toLowerCase());
             }
             return true;

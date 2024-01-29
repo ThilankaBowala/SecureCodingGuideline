@@ -55,7 +55,9 @@ public class CustomViolationsDetectorSystem {
                 Violation violation = violations.get(i);
                 var violationCode = violation.getViolationCode();
                 String tooltip = violationCode;
-                syntaxHighlighter.highlight(editor, document, violation.getEditorLineNumber(), violation.getFirstNonWhiteSpaceIndex(), 1, 5, tooltip);
+                syntaxHighlighter.highlight(editor, document, violation.getEditorLineNumber(),
+                        violation.getFirstNonWhiteSpaceIndex(), violation.getMatchingIndexStart(),
+                        violation.getMatchingIndexEnd(), tooltip);
                 String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
                 JLabel link = new JLabel("Click here for more details");
                 link.setHorizontalAlignment(JLabel.CENTER);

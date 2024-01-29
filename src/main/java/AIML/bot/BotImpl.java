@@ -87,13 +87,20 @@ public class BotImpl {
     public List<Violation> matchedViolations(String editorText, CustomViolationsDetectorContext state) {
         var editorLines = detector.linesSplit(editorText);
         var detectedViolations = new ArrayList<Violation>();
+
         for (int lineNumber=0; lineNumber<editorLines.length; lineNumber++) {
             String editorLine = editorLines[lineNumber];
             var match = detectCodeMatches(editorLine, state);
-            if(!match.isEmpty()) {
+            var errorCode = match.x;
+
+            if(!errorCode.isEmpty()) {
+                var stars = match.y;
+
                 var editorLineNumber = lineNumber + 1;
                 var firstNonWhiteSpaceIndex = stringProcessor.getFirstNonWhiteSpace(editorLine);
-                var violation = new Violation(match, editorLineNumber, firstNonWhiteSpaceIndex);
+                var matchingRange = stringProcessor.getMatchingRange(editorLine, stars);
+
+                var violation = new Violation(errorCode, editorLineNumber, firstNonWhiteSpaceIndex, matchingRange.x, matchingRange.y);
                 detectedViolations.add(violation);
             }
         }
@@ -101,10 +108,11 @@ public class BotImpl {
         return detectedViolations;
     }
 
-    public String detectCodeMatches(final String editorLine, CustomViolationsDetectorContext state) {
+    public CustomTuple<String, ArrayList<String>> detectCodeMatches(final String editorLine, CustomViolationsDetectorContext state) {
         var stars = new ArrayList<String>();
         var pattern = detector.match(editorLine, state.topic(), state.that(), stars);
-        return detector.detectorRespond(stars, pattern, state.topic(), state.that(), state.getPredicates());
+        var detectorResponse = detector.detectorRespond(stars, pattern, state.topic(), state.that(), state.getPredicates());
+        return new CustomTuple(detectorResponse, stars);
     }
 
     private List<AimlCategory> loadAiml() {
