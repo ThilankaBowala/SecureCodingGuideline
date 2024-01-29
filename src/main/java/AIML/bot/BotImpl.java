@@ -39,10 +39,9 @@ public class BotImpl {
         return bot;
     }
 
-    public Optional<String> checkMatches() {
+    public Optional<String> checkMatches(String editorText) {
         bot.wakeUp();
-        String message = "for (float i = "; // read opened doc here
-        return bot.process(message);
+        return bot.process(editorText);
     }
 
     private BotImpl(String rootDir) {
