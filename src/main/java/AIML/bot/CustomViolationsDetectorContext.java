@@ -11,11 +11,10 @@ import java.util.UUID;
  *
  * @author batiaev
  * @author Marco Piovesan
- *         Added predicates on 29/08/16
- * @since 18/06/15
- *
+ * Added predicates on 29/08/16
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 18/06/15
  */
 public class CustomViolationsDetectorContext {
     private final UUID chatUid;

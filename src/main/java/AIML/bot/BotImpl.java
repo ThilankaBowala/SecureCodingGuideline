@@ -88,12 +88,12 @@ public class BotImpl {
         var editorLines = detector.linesSplit(editorText);
         var detectedViolations = new ArrayList<Violation>();
 
-        for (int lineNumber=0; lineNumber<editorLines.length; lineNumber++) {
+        for (int lineNumber = 0; lineNumber < editorLines.length; lineNumber++) {
             String editorLine = editorLines[lineNumber];
             var match = detectCodeMatches(editorLine, state);
             var errorCode = match.x;
 
-            if(!errorCode.isEmpty()) {
+            if (!errorCode.isEmpty()) {
                 var stars = match.y;
 
                 var editorLineNumber = lineNumber + 1;

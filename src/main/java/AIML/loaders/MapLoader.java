@@ -16,10 +16,9 @@ import static org.slf4j.LoggerFactory.getLogger;
  * Map loader
  *
  * @author antonF
- * @since 19/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 19/10/16
  */
 public class MapLoader<T extends AimlMap> implements FileLoader<T> {
     private static final Logger log = getLogger(MapLoader.class);

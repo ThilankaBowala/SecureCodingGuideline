@@ -1,5 +1,12 @@
 package AIML.entity;
 
+/**
+ * Violation data structure
+ *
+ * @author Thilanka Bowala <thilankabowala@gmail.com>
+ * @since 29/1/24
+ */
+
 public class Violation {
     private String violationCode;
     private int editorLineNumber;

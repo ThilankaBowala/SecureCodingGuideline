@@ -6,13 +6,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * String processing and matching algorithms.
+ *
+ * @author Thilanka Bowala <thilankabowala@gmail.com>
+ * @since 29/1/24
+ */
+
 public class StringProcessor {
     public int getFirstNonWhiteSpace(String input) {
-        if(input.isEmpty())
+        if (input.isEmpty())
             return -1;
 
         var firstCharacter = input.charAt(0);
-        if(firstCharacter != ' ')
+        if (firstCharacter != ' ')
             return 0;
 
         Pattern p = Pattern.compile("([^\\s]+)?(\\s)+");
@@ -21,11 +28,11 @@ public class StringProcessor {
         return matcher.end();
     }
 
-    public CustomTuple<Integer,Integer> getMatchingRange(String input, List<String> stars) {
-        if(input.isEmpty())
+    public CustomTuple<Integer, Integer> getMatchingRange(String input, List<String> stars) {
+        if (input.isEmpty())
             return new CustomTuple<>(-1, -1);
 
-        if(stars.isEmpty())
+        if (stars.isEmpty())
             return new CustomTuple<>(0, input.length() - 1);
 
         var processedInput = input.trim();
@@ -35,12 +42,12 @@ public class StringProcessor {
         Integer startIndex;
         Integer endIndex;
 
-        if(processedInput.startsWith(firstStar))
+        if (processedInput.startsWith(firstStar))
             startIndex = firstStar.length();
         else
             startIndex = 0;
 
-        if(processedInput.endsWith(lastStar))
+        if (processedInput.endsWith(lastStar))
             endIndex = input.length() - 1 - lastStar.length();
         else
             endIndex = input.length() - 1;

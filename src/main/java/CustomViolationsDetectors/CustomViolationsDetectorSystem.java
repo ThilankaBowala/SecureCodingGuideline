@@ -49,9 +49,8 @@ public class CustomViolationsDetectorSystem {
 
         List<Violation> violations = aimlBotInstance.detectViolations(editorText);
 
-        if(!violations.isEmpty()){
-            for (int i=0; i<violations.size(); i++)
-            {
+        if (!violations.isEmpty()) {
+            for (int i = 0; i < violations.size(); i++) {
                 Violation violation = violations.get(i);
                 var violationCode = violation.getViolationCode();
                 String tooltip = violationCode;

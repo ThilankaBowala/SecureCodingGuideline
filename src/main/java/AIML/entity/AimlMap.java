@@ -11,10 +11,9 @@ import AIML.consts.AimlTag;
  * Elements of the domain are called keys and elements of the range are called values.
  *
  * @author anton
- * @since 19/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 19/10/16
  */
 public class AimlMap extends HashMap<String, String> implements AimlElement {
 

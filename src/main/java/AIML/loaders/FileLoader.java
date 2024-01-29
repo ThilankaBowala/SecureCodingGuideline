@@ -8,10 +8,9 @@ import java.util.Map;
  *
  * @param <T> type of result data
  * @author anton
- * @since 19/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 19/10/16
  */
 public interface FileLoader<T> extends Loader<T, File> {
     T load(File file);

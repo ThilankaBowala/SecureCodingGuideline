@@ -7,16 +7,15 @@ import java.nio.file.Path;
  * Aiml constants
  *
  * @author batiaev
- * @since 6/17/15
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 6/17/15
  */
 public class AimlConst {
 
     public static final String AIML_FILE_SUFFIX = ".aiml";
 
-    private static String root_path = Path.of("./bots/src/main/resources".replace("/",File.separator))
+    private static String root_path = Path.of("./bots/src/main/resources".replace("/", File.separator))
             .toAbsolutePath().toString();
     public static final String default_bot_name = "SecureCodingGuidelineBot";
     public static final String error_bot_response = "Something is wrong with my brain.";

@@ -8,10 +8,9 @@ import java.util.Map;
  * @param <S> source type of data
  * @param <R> result type of data
  * @author anton
- * @since 25/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 25/10/16
  */
 public interface Loader<R, S> {
     /**

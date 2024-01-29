@@ -15,10 +15,9 @@ import java.util.Random;
  * Additional utils
  *
  * @author anton
- * @since 21/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 21/10/16
  */
 public class AppUtils {
     private static final Random random = new Random();

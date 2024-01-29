@@ -28,10 +28,9 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author anton
  * @author Marco
- * @since 19/10/16
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 19/10/16
  */
 public class AIMLProcessor {
     private static final Logger log = getLogger(AIMLProcessor.class);

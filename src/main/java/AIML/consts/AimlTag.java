@@ -4,10 +4,9 @@ package AIML.consts;
  * Aiml tags
  *
  * @author batiaev
- * @since 13/06/15
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 13/06/15
  */
 public class AimlTag {
 

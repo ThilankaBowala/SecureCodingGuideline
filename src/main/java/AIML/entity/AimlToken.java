@@ -4,10 +4,9 @@ package AIML.entity;
  * AimlToken
  *
  * @author anton
- * @since 07/06/17
- *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * @since 28/1/24
+ * Did code matching related changes on 28/1/24
+ * @since 07/06/17
  */
 public class AimlToken {
     private String value;
