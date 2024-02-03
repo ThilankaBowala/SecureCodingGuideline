@@ -8,3 +8,6 @@ exclude:
   - name: All
     paths:
       - .qodana
+with:
+  pr-mode: false
+  args: --save-report=false
