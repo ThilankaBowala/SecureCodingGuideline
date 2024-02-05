@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+		
+	<category>
+		<pattern>^catch^\(^NullPointerException^</pattern>
+		<template>ERR08J</template>
+	</category>
+		
+	<category>
+		<pattern>^catch^\(^RuntimeException^</pattern>
+		<template>ERR08J</template>
+	</category>
+		
+	<category>
+		<pattern>^catch^\(^Exception^</pattern>
+		<template>ERR08J</template>
+	</category>
+		
+	<category>
+		<pattern>^catch^\(^Throwable^</pattern>
+		<template>ERR08J</template>
+	</category>
+</aiml>
