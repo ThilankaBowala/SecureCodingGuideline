@@ -5,10 +5,20 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class MethodLevelViolationDetector extends AnAction implements  ViolationDetector{
+/**
+ * Method level violation detector
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Did code refactoring on 28/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
+public class MethodLevelViolationDetector extends AnAction implements ViolationDetector {
 
     String valueERR08J = "";
     String valueNum09J = "";
@@ -22,26 +32,28 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
     String rule4Detection;
     String rule5Detection;
 
-    public String rule1Detection(){
+    public String rule1Detection() {
         try {
-            rule1Detection=detectViolationNUM09J();
+            rule1Detection = detectViolationNUM09J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule1Detection;
 
     }
-    public String rule2Detection(){
+
+    public String rule2Detection() {
         try {
-            rule2Detection=detectViolationERR08J();
+            rule2Detection = detectViolationERR08J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule2Detection;
     }
-    public String rule3Detection(){
+
+    public String rule3Detection() {
         try {
-            rule3Detection=detectViolationERR07J();
+            rule3Detection = detectViolationERR07J();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,18 +61,19 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
 
     }
 
-    public String rule4Detection(){
+    public String rule4Detection() {
         try {
-            rule4Detection=detectViolationERR04J();
+            rule4Detection = detectViolationERR04J();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rule4Detection;
 
     }
-    public String rule5Detection(){
+
+    public String rule5Detection() {
         try {
-            rule5Detection=detectViolationEXP02J();
+            rule5Detection = detectViolationEXP02J();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,13 +105,14 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
             return valueERR08J;
         }
     }
+
     public String detectViolationNUM09J() throws Exception {
         MethodLevelCodeFragment cc = new MethodLevelCodeFragment();
         if (!cc.forCounter.isEmpty()) {
             ArrayList<Integer> lines = new ArrayList<Integer>();
             ArrayList<Integer> columns = new ArrayList<Integer>();
             ArrayList<Integer> ends = new ArrayList<Integer>();
-            for (int i = 1; i < cc.forCounter.size()+1; i++) {
+            for (int i = 1; i < cc.forCounter.size() + 1; i++) {
                 lines.add(cc.forCounter.get(i).get(0));
                 columns.add(cc.forCounter.get(i).get(1));
                 ends.add(cc.forCounter.get(i).get(2));
@@ -128,7 +142,7 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
                 isViolated = true;
             }
         }
-        if(isViolated){
+        if (isViolated) {
             lce.put("method_rule3_line", lines);
             lce.put("method_rule3_column", columns);
             lce.put("method_rule3_end", ends);
@@ -146,15 +160,15 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
         ArrayList<Integer> columns = new ArrayList<Integer>();
         ArrayList<Integer> ends = new ArrayList<Integer>();
         boolean isViolated = false;
-        if (!cc.finallystmtBlock.isEmpty()) {
-            for (int i = 1; i < cc.finallystmtBlock.size() + 1; i++) {
-                lines.add(cc.finallystmtBlock.get(i).get(0));
-                columns.add(cc.finallystmtBlock.get(i).get(1));
-                ends.add(cc.finallystmtBlock.get(i).get(2));
+        if (!cc.finallyStmtBlock.isEmpty()) {
+            for (int i = 1; i < cc.finallyStmtBlock.size() + 1; i++) {
+                lines.add(cc.finallyStmtBlock.get(i).get(0));
+                columns.add(cc.finallyStmtBlock.get(i).get(1));
+                ends.add(cc.finallyStmtBlock.get(i).get(2));
                 isViolated = true;
             }
         }
-        if(isViolated){
+        if (isViolated) {
             lce.put("method_rule4_line", lines);
             lce.put("method_rule4_column", columns);
             lce.put("method_rule4_end", ends);
@@ -170,17 +184,17 @@ public class MethodLevelViolationDetector extends AnAction implements  Violation
         ArrayList<Integer> ends = new ArrayList<Integer>();
         MethodLevelCodeFragment cc = new MethodLevelCodeFragment();
         boolean isViolated = false;
-        if (!cc.equalsmethodArguments.isEmpty()) {
+        if (!cc.equalsMethodArguments.isEmpty()) {
             for (int i = 0; i < cc.arraysList.size(); i++) {
-                if (cc.equalsmethodArguments.containsKey(cc.arraysList.get(i))) {
-                    lines.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(0));
-                    columns.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(1));
-                    ends.add(cc.equalsmethodArguments.get(cc.arraysList.get(i)).get(2));
+                if (cc.equalsMethodArguments.containsKey(cc.arraysList.get(i))) {
+                    lines.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(0));
+                    columns.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(1));
+                    ends.add(cc.equalsMethodArguments.get(cc.arraysList.get(i)).get(2));
                     isViolated = true;
                 }
             }
         }
-        if(isViolated){
+        if (isViolated) {
             lce.put("method_rule5_line", lines);
             lce.put("method_rule5_column", columns);
             lce.put("method_rule5_end", ends);

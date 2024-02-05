@@ -1,7 +1,6 @@
 package CodeFragments;
 
 import Tools.LiveParser;
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -20,23 +19,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Method level code fragment
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Did code refactoring on 28/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class MethodLevelCodeFragment extends AnAction {
 
     public Map<Integer, ArrayList<Integer>> catchClause = new HashMap<Integer, ArrayList<Integer>>();
     public Map<Integer, ArrayList<Integer>> forCounter = new HashMap<Integer, ArrayList<Integer>>();
-    public List<ReturnStmt> returnstatementlist = new ArrayList<ReturnStmt>();
+    public List<ReturnStmt> returnStatementList = new ArrayList<ReturnStmt>();
     public Map<Integer, ArrayList<Integer>> methodCalls = new HashMap<Integer, ArrayList<Integer>>();
-    public List<UnaryExpr> UnaryExpressionslist = new ArrayList<UnaryExpr>();
-    public List<AssignExpr> AssignExprlist = new ArrayList<AssignExpr>();
+    public List<UnaryExpr> unaryExpressionslist = new ArrayList<UnaryExpr>();
+    public List<AssignExpr> assignExprlist = new ArrayList<AssignExpr>();
     public Map<Integer, ArrayList<Integer>> throwStatement = new HashMap<Integer, ArrayList<Integer>>();
-    public Map< Integer, ArrayList<Integer>> finallystmtBlock = new HashMap<Integer, ArrayList<Integer>>();
+    public Map<Integer, ArrayList<Integer>> finallyStmtBlock = new HashMap<Integer, ArrayList<Integer>>();
     public List<ObjectCreationExpr> ObjectCReationExpress = new ArrayList<>();
-    public Map<String, ArrayList<Integer>> equalsmethodArguments= new HashMap<String, ArrayList<Integer>>();
+    public Map<String, ArrayList<Integer>> equalsMethodArguments = new HashMap<String, ArrayList<Integer>>();
     public List<String> arraysList = new ArrayList<>();
     public List<IfStmt> IfStatements = new ArrayList<>();
     public List<MethodCallExpr> calledMethodNames = new ArrayList<>();
 
-    public MethodLevelCodeFragment(){
+    public MethodLevelCodeFragment() {
 //        JavaParser.getStaticConfiguration().setAttributeComments(false);
 
         CompilationUnit cu;
@@ -52,37 +63,37 @@ public class MethodLevelCodeFragment extends AnAction {
         BlockVisitor.visit(cu, forCounter);
 
         VoidVisitor<List<ReturnStmt>> ReturnVisitor = new ReturnVisitor();
-        ReturnVisitor.visit(cu, returnstatementlist);
+        ReturnVisitor.visit(cu, returnStatementList);
 
         VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> MethodCallVisitor = new MethodCallVisitor();
         MethodCallVisitor.visit(cu, methodCalls);
 
         VoidVisitor<List<UnaryExpr>> UnaryExprVisitor = new UnaryExprVisitor();
-        UnaryExprVisitor.visit(cu, UnaryExpressionslist);
+        UnaryExprVisitor.visit(cu, unaryExpressionslist);
 
         VoidVisitor<List<AssignExpr>> AssignExprVisitor = new AssignExprVisitor();
-        AssignExprVisitor.visit(cu, AssignExprlist);
+        AssignExprVisitor.visit(cu, assignExprlist);
 
         VoidVisitor<Map<Integer, ArrayList<Integer>>> ThrowVisitor = new ThrowStatementVisitor();
-        ThrowVisitor.visit(cu,throwStatement);
+        ThrowVisitor.visit(cu, throwStatement);
 
         VoidVisitor<Map<Integer, ArrayList<Integer>>> finallyBlockVisitor = new FinallyBlockVisitor();
-        finallyBlockVisitor.visit(cu,finallystmtBlock);
+        finallyBlockVisitor.visit(cu, finallyStmtBlock);
 
         VoidVisitor<List<ObjectCreationExpr>> ObjectCreationExprVisitor = new ObjectCreationExprVisitor();
         ObjectCreationExprVisitor.visit(cu, ObjectCReationExpress);
 
         ArrayVisitor ArrayListVisitor = new ArrayVisitor();
-        ArrayListVisitor.visit(cu,arraysList);
+        ArrayListVisitor.visit(cu, arraysList);
 
         VoidVisitor<Map<String, ArrayList<Integer>>> equalVisitor = new EqualsVisitor();
-        equalVisitor.visit(cu, equalsmethodArguments);
+        equalVisitor.visit(cu, equalsMethodArguments);
 
         VoidVisitor<List<IfStmt>> IfStatementVisitor = new IfStatementVisitor();
-        IfStatementVisitor.visit(cu,IfStatements);
+        IfStatementVisitor.visit(cu, IfStatements);
 
         VoidVisitor<List<MethodCallExpr>> MethodCallExprVisitor = new MethodCallExprVisitor();
-        MethodCallExprVisitor.visit(cu,calledMethodNames);
+        MethodCallExprVisitor.visit(cu, calledMethodNames);
     }
 
     private static class CatchClauseVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> {
@@ -108,7 +119,8 @@ public class MethodLevelCodeFragment extends AnAction {
 
     private static class BlockVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> {
         int x = 1;
-        int line,column,end;
+        int line, column, end;
+
         @Override
         public void visit(ForStmt n, Map<Integer, ArrayList<Integer>> collector) {
             super.visit(n, collector);
@@ -116,10 +128,11 @@ public class MethodLevelCodeFragment extends AnAction {
                 line = n.getInitialization().get(0).getChildNodes().get(0).getChildNodes().get(0).getBegin().get().line;
                 column = n.getInitialization().get(0).getChildNodes().get(0).getChildNodes().get(0).getBegin().get().column;
                 end = n.getInitialization().get(0).getChildNodes().get(0).getChildNodes().get(0).getEnd().get().column;
-                collector.put(x,new ArrayList<Integer>() {{
+                collector.put(x, new ArrayList<Integer>() {{
                     add(line);
                     add(column);
-                    add(end);}});
+                    add(end);
+                }});
                 x++;
             }
         }
@@ -129,28 +142,28 @@ public class MethodLevelCodeFragment extends AnAction {
         @Override
         public void visit(ReturnStmt n, List<ReturnStmt> collector) {
             super.visit(n, collector);
-            if(!n.toString().equals("return;")){
+            if (!n.toString().equals("return;")) {
                 collector.add(n);
             }
         }
     }
 
-    private static class MethodCallVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>>
-    {
+    private static class MethodCallVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> {
         int x = 1;
-        int line,column,end;
+        int line, column, end;
+
         @Override
         public void visit(MethodCallExpr n, Map<Integer, ArrayList<Integer>> arg) {
             super.visit(n, arg);
-            if(n.getNameAsString().equals("run"))
-            {
+            if (n.getNameAsString().equals("run")) {
                 line = n.getName().getBegin().get().line;
                 column = n.getName().getBegin().get().column;
                 end = n.getName().getEnd().get().column;
-                arg.put(x,new ArrayList<Integer>() {{
+                arg.put(x, new ArrayList<Integer>() {{
                     add(line);
                     add(column);
-                    add(end);}});
+                    add(end);
+                }});
                 x++;
             }
         }
@@ -174,38 +187,41 @@ public class MethodLevelCodeFragment extends AnAction {
 
     private static class ThrowStatementVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> {
         int x = 1;
-        int line,column,end;
+        int line, column, end;
+
         @Override
         public void visit(ThrowStmt n, Map<Integer, ArrayList<Integer>> collector) {
             super.visit(n, collector);
-            if(String.valueOf(n.getExpression().getChildNodes().get(0)).equals("RuntimeException")||String.valueOf(n.getExpression().getChildNodes().get(0)).equals("Exception")||String.valueOf(n.getExpression().getChildNodes().get(0)).equals("Throwable")) {
+            if (String.valueOf(n.getExpression().getChildNodes().get(0)).equals("RuntimeException") || String.valueOf(n.getExpression().getChildNodes().get(0)).equals("Exception") || String.valueOf(n.getExpression().getChildNodes().get(0)).equals("Throwable")) {
                 line = n.getExpression().getChildNodes().get(0).getBegin().get().line;
                 column = n.getExpression().getChildNodes().get(0).getBegin().get().column;
                 end = n.getExpression().getChildNodes().get(0).getEnd().get().column;
                 collector.put(x, new ArrayList<Integer>() {{
                     add(line);
                     add(column);
-                    add(end);}}); //n.getInitialization().get(0).getChildNodes().get(0).getChildNodes().get(0)
-                x+=1;
+                    add(end);
+                }}); //n.getInitialization().get(0).getChildNodes().get(0).getChildNodes().get(0)
+                x += 1;
             }
         }
     }
 
     private static class FinallyBlockVisitor extends VoidVisitorAdapter<Map<Integer, ArrayList<Integer>>> {
         int x = 1;
-        int line,column,end;
+        int line, column, end;
 
         @Override
         public void visit(TryStmt n, Map<Integer, ArrayList<Integer>> collector) {
             super.visit(n, collector);
-            if(n.getFinallyBlock().flatMap(fb -> fb.findFirst(ReturnStmt.class)).isPresent()||n.getFinallyBlock().flatMap(fb -> fb.findFirst(BreakStmt.class)).isPresent()||n.getFinallyBlock().flatMap(fb -> fb.findFirst(ContinueStmt.class)).isPresent()||n.getFinallyBlock().flatMap(fb -> fb.findFirst(ThrowStmt.class)).isPresent()) {
+            if (n.getFinallyBlock().flatMap(fb -> fb.findFirst(ReturnStmt.class)).isPresent() || n.getFinallyBlock().flatMap(fb -> fb.findFirst(BreakStmt.class)).isPresent() || n.getFinallyBlock().flatMap(fb -> fb.findFirst(ContinueStmt.class)).isPresent() || n.getFinallyBlock().flatMap(fb -> fb.findFirst(ThrowStmt.class)).isPresent()) {
                 line = n.getFinallyBlock().flatMap(fb -> fb.findFirst(ReturnStmt.class)).get().getBegin().get().line;
                 column = n.getFinallyBlock().flatMap(fb -> fb.findFirst(ReturnStmt.class)).get().getBegin().get().column;
                 end = n.getFinallyBlock().flatMap(fb -> fb.findFirst(ReturnStmt.class)).get().getEnd().get().column;
                 collector.put(x, new ArrayList<Integer>() {{
                     add(line);
                     add(column);
-                    add(end);}});
+                    add(end);
+                }});
                 x++;
             }
         }
@@ -229,30 +245,31 @@ public class MethodLevelCodeFragment extends AnAction {
         }
     }
 
-    private static class EqualsVisitor extends  VoidVisitorAdapter<Map<String, ArrayList<Integer>>> { //check using Array creation expression
-        int line,column,end;
+    private static class EqualsVisitor extends VoidVisitorAdapter<Map<String, ArrayList<Integer>>> { //check using Array creation expression
+        int line, column, end;
         int x = 1;
+
         @Override
         public void visit(MethodCallExpr n, Map<String, ArrayList<Integer>> collector) {
             super.visit(n, collector);
-            if (n.getName().asString().equals("equals")&&(n.getArguments().size() == 1)) {
+            if (n.getName().asString().equals("equals") && (n.getArguments().size() == 1)) {
                 line = n.getArguments().get(0).getBegin().get().line;
                 column = n.getArguments().get(0).getBegin().get().column;
                 end = n.getArguments().get(0).getEnd().get().column;
-                collector.put(String.valueOf(n.getArguments().get(0)),new ArrayList<Integer>() {{
+                collector.put(String.valueOf(n.getArguments().get(0)), new ArrayList<Integer>() {{
                     add(line);
                     add(column);
-                    add(end);}});
+                    add(end);
+                }});
                 x++;
             }
         }
     }
 
-    public  static class IfStatementVisitor extends VoidVisitorAdapter<List<IfStmt>>
-    {
+    public static class IfStatementVisitor extends VoidVisitorAdapter<List<IfStmt>> {
         @Override
-        public void visit(IfStmt n, List<IfStmt> arg){
-            super.visit(n,arg);
+        public void visit(IfStmt n, List<IfStmt> arg) {
+            super.visit(n, arg);
             arg.add(n);
         }
     }

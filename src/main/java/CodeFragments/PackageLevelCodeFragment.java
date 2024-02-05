@@ -18,8 +18,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Package level code fragment
+ *
+ * @author S.L. Dasanayake
+ * @author A. Mudalige
+ * @author M.L.T. Perera
+ * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
+ * Did code refactoring on 28/1/24
+ * Original repo: https://bitbucket.org/lasithd2/seproject_framework_for_secure_coding/src/master/
+ * @since 2018
+ */
+
 public class PackageLevelCodeFragment extends AnAction {
     public List<String> ImplementedInterfaces = new ArrayList<String>();
+
     public PackageLevelCodeFragment() {
 //        JavaParser.getStaticConfiguration().setAttributeComments(false);
         CompilationUnit cu;
@@ -31,14 +44,14 @@ public class PackageLevelCodeFragment extends AnAction {
         ClassVisitor.visit(cu, ImplementedInterfaces);
     }
 
-    private static class ClassVisitor extends VoidVisitorAdapter<List<String>>
-    {
+    private static class ClassVisitor extends VoidVisitorAdapter<List<String>> {
         @Override
         public void visit(ClassOrInterfaceType n, List<String> arg) {
             super.visit(n, arg);
             arg.add(n.getNameAsString());
         }
     }
+
     @Override
     public void actionPerformed(AnActionEvent e) {
     }
