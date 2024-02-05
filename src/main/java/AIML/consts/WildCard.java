@@ -14,13 +14,13 @@ public enum WildCard {
     ZeroMorePriority("#"),
     OneMorePriority("_");
 
-    private final String sumbol;
+    private final String symbol;
 
-    WildCard(String sumbol) {
-        this.sumbol = sumbol;
+    WildCard(String symbol) {
+        this.symbol = symbol;
     }
 
     public String get() {
-        return sumbol;
+        return symbol;
     }
 }
