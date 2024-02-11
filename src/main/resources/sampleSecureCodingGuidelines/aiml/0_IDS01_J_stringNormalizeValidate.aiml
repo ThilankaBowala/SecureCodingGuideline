@@ -27,11 +27,19 @@
 				<set name="strVariableAfterNormalized"><star index="1"/></set>
 				<set name="strVariableBeforeNormalized"><star index="2"/></set>
 			</think>
-		
-			<condition name="strVariableNormalized" value='false'>
+			
+			<!--condition name="strVariableBeforeNormalized" value="strVariable">
 				<think>
 					<set name="strVariableNormalized">true</set>
 				</think>
+			</condition-->
+		
+			<condition name="strVariableNormalized">
+				<li value="false">
+					<think>
+						<set name="strVariableNormalized">true</set>
+					</think>
+				</li>
 			</condition>
 		</template>
 	</category>
@@ -44,8 +52,10 @@
 				<set name="strVariableForMatcher"><star index="3"/></set>
 			</think>
 		
-			<condition name="strVariableNormalized" value="false">
-				IDS01-J ,Correction: Please normalize string '<get name="strVariable"/>' before matching with pattern '<get name="patternObjVariable"/>'
+			<condition name="strVariableNormalized">
+				<li value="false">
+					IDS01-J ,Correction: Please normalize string '<get name="strVariable"/>' before matching with pattern '<get name="patternObjVariable"/>'
+				</li>
 			</condition>
 		</template>
 	</category>
