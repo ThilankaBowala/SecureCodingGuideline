@@ -29,7 +29,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author anton
  * @author Marco
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * Did code matching related changes on 28/1/24, added support for get, set, condition on 11/02/24
+ * Did code matching related changes on 28/1/24, added support for get, set, condition, li on 11/02/24
  * @since 19/10/16
  */
 public class AIMLProcessor {
@@ -148,6 +148,8 @@ public class AIMLProcessor {
                 return "";
             case condition:
                 return conditionParse(node, stars);
+            case li:
+                return liParse(node, stars);
         }
         return "";
     }
@@ -236,18 +238,57 @@ public class AIMLProcessor {
         if (attributes.getLength() > 0) {
             var conditionNameNode = attributes.getNamedItem("name");
             var conditionValueNode = attributes.getNamedItem("value");
-            var conditionTemplateValue = getTemplateValue(node, stars);
 
-            if (conditionNameNode == null || conditionValueNode == null) return "";
-            var conditionNameKey = conditionNameNode.getNodeValue();
-            var conditionNameValue = getTemplateValue(conditionValueNode, stars);
-
-            var conditionStateValue = predicates.get(conditionNameKey);
-            if(conditionNameValue.equals(conditionStateValue)) {
+            if (conditionNameNode == null) return "";
+            else if(conditionValueNode == null){
+                //hasn't a value: only strings for li
+                var conditionTemplateValue = getTemplateValue(node, stars);
                 return conditionTemplateValue;
+            }else{
+                //has a value: a secondary variable, no li tags
+                var conditionNameKey = conditionNameNode.getNodeValue();
+                var conditionStateValue = predicates.get(conditionNameKey);
+
+                var conditionSecondaryKey = conditionValueNode.getNodeValue();
+                var conditionSecondaryValue = predicates.get(conditionSecondaryKey);
+
+                if(conditionStateValue.equals(conditionSecondaryValue)) {
+                    var conditionTemplateValue = getTemplateValue(node, stars);
+                    return conditionTemplateValue;
+                }
             }
+
         }
         return "";
+    }
+
+    private String liParse(Node node, List<String> stars) {
+        var attributes = node.getAttributes();
+        var liTemplateValue = getTemplateValue(node, stars);
+
+        if (attributes.getLength() > 0) {
+            var liValueNode = attributes.getNamedItem("value");
+            if (liValueNode == null) return "";
+
+            var parentConditionNode = node.getParentNode();
+            var conditionAttributes = parentConditionNode.getAttributes();
+
+            if (conditionAttributes.getLength() > 0) {
+                var conditionNameNode = conditionAttributes.getNamedItem("name");
+                var conditionNameKey = conditionNameNode.getNodeValue();
+                var conditionStateValue = predicates.get(conditionNameKey);
+
+                var liValue = getTemplateValue(liValueNode, stars);
+
+                if(liValue.equals(conditionStateValue)) {
+                    return liTemplateValue;
+                }
+            }
+
+            return "";
+        }else{
+            return liTemplateValue;
+        }
     }
 
     private Set<String> patterns(String topic) {
