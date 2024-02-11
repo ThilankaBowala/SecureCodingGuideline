@@ -3,21 +3,21 @@
 		
 	<category>
 		<pattern>^catch^\(^NullPointerException^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 		
 	<category>
 		<pattern>^catch^\(^RuntimeException^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 		
 	<category>
 		<pattern>^catch^\(^Exception^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 		
 	<category>
 		<pattern>^catch^\(^Throwable^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 </aiml>

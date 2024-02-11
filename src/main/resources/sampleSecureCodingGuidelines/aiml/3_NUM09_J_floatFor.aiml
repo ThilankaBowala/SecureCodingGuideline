@@ -2,6 +2,6 @@
 <aiml version = "2.0">
 	<category>
 		<pattern>^for^\(^float*</pattern>
-		<template>NUM09J</template>
+		<template>NUM09-J</template>
 	</category>
 </aiml>
