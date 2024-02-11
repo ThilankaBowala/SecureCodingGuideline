@@ -29,7 +29,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author anton
  * @author Marco
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * Did code matching related changes on 28/1/24
+ * Did code matching related changes on 28/1/24, added support for get, set on 11/02/24
  * @since 19/10/16
  */
 public class AIMLProcessor {
@@ -136,8 +136,9 @@ public class AIMLProcessor {
             case srai:
                 return sraiParse(node, stars);
             case set:
-                setParse(node, stars);
-                return "";//FIXME?
+                return setParse(node, stars);
+            case get:
+                return getParse(node);
             case bot:
                 return botInfoParse();
             case star:
@@ -184,18 +185,19 @@ public class AIMLProcessor {
     }
 
     private String textParse(Node node) {
-        return node.getNodeValue().replaceAll("(\r\n|\n\r|\r|\n)", "").replaceAll("  ", " ");
+        return node.getNodeValue().replaceAll("(\r\n|\n\r|\r|\n|\t)", "").replaceAll("  ", " ");
     }
 
-    private void setParse(Node node, List<String> stars) {
+    private String setParse(Node node, List<String> stars) {
         var attributes = node.getAttributes();
         if (attributes.getLength() > 0) {
-            var node1 = attributes.getNamedItem("getName");
-            if (node1 == null) return;
+            var node1 = attributes.getNamedItem("name");
+            if (node1 == null) return "";
             var key = node1.getNodeValue();
             var value = getTemplateValue(node, stars);
-            predicates.put(key, value);
+            return predicates.put(key, value);
         }
+        return "";
     }
 
     private String sraiParse(Node node, List<String> stars) {
@@ -212,6 +214,18 @@ public class AIMLProcessor {
         }
 
         return AppUtils.getRandom(values);
+    }
+
+    private String getParse(Node node) {
+        var attributes = node.getAttributes();
+        if (attributes.getLength() > 0) {
+            var node1 = attributes.getNamedItem("name");
+            if (node1 == null) return "";
+            var key = node1.getNodeValue();
+            var value = predicates.get(key);
+            return value;
+        }
+        return "";
     }
 
     private Set<String> patterns(String topic) {
