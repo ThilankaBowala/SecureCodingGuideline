@@ -5,8 +5,9 @@
 		<pattern>String * =*;</pattern>
 		<template>
 			<think>
-				<set name="strVariable"><star index="1"/></set>
-				<set name="strVariableNormalized">false</set>
+				<set name="strVar"><star index="1"/></set>
+				<set name="strVarNormalized">false</set>
+				<set name="strVarAfterNormalize"></set>
 			</think>
 		</template>
 	</category>
@@ -14,9 +15,7 @@
 	<category>
 		<pattern>Pattern * =*;</pattern>
 		<template>
-			<think>
-				<set name="patternObjVariable"><star index="1"/></set>
-			</think>
+			<think><set name="patternVar"><star index="1"/></set></think>
 		</template>
 	</category>
 	
@@ -24,22 +23,12 @@
 		<pattern>* = Normalizer.normalize\(*, *</pattern>
 		<template>
 			<think>
-				<set name="strVariableAfterNormalized"><star index="1"/></set>
-				<set name="strVariableBeforeNormalized"><star index="2"/></set>
+				<set name="strVarBeforeNormalize"><star index="2"/></set>
+				<set name="strVarAfterNormalize"><star index="1"/></set>
 			</think>
 			
-			<!--condition name="strVariableBeforeNormalized" value="strVariable">
-				<think>
-					<set name="strVariableNormalized">true</set>
-				</think>
-			</condition-->
-		
-			<condition name="strVariableNormalized">
-				<li value="false">
-					<think>
-						<set name="strVariableNormalized">true</set>
-					</think>
-				</li>
+			<condition name="strVarBeforeNormalize" value="strVar">
+				<think><set name="strVarNormalized">true</set></think>
 			</condition>
 		</template>
 	</category>
@@ -48,13 +37,24 @@
 		<pattern>* = *\.matcher\(*\)*</pattern>
 		<template>
 			<think>
-				<set name="patternObjVariableForMatcher"><star index="2"/></set>
-				<set name="strVariableForMatcher"><star index="3"/></set>
+				<set name="patternInMatcher"><star index="2"/></set>
+				<set name="strInMatcher"><star index="3"/></set>
+				<set name="correctStrVarNormalized">false</set>
 			</think>
+			
+			<condition name="patternInMatcher" value="patternVar">
+				<condition name="strInMatcher" value="strVarAfterNormalize">
+					<condition name="strVarNormalized">
+						<li value="true">
+							<think><set name="correctStrVarNormalized">true</set></think>
+						</li>
+					</condition>
+				</condition>
+			</condition>
 		
-			<condition name="strVariableNormalized">
+			<condition name="correctStrVarNormalized">
 				<li value="false">
-					IDS01-J ,Correction: Please normalize string '<get name="strVariable"/>' before matching with pattern '<get name="patternObjVariable"/>'
+					IDS01-J ,Correction: Please normalize string '<get name="strInMatcher"/>' before matching with pattern '<get name="patternInMatcher"/>'
 				</li>
 			</condition>
 		</template>
