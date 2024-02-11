@@ -29,7 +29,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author anton
  * @author Marco
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * Did code matching related changes on 28/1/24, added support for get, set on 11/02/24
+ * Did code matching related changes on 28/1/24, added support for get, set, condition on 11/02/24
  * @since 19/10/16
  */
 public class AIMLProcessor {
@@ -146,6 +146,8 @@ public class AIMLProcessor {
             case think:
                 getTemplateValue(node, stars);
                 return "";
+            case condition:
+                return conditionParse(node, stars);
         }
         return "";
     }
@@ -224,6 +226,26 @@ public class AIMLProcessor {
             var key = node1.getNodeValue();
             var value = predicates.get(key);
             return value;
+        }
+        return "";
+    }
+
+    private String conditionParse(Node node, List<String> stars) {
+        var attributes = node.getAttributes();
+
+        if (attributes.getLength() > 0) {
+            var conditionNameNode = attributes.getNamedItem("name");
+            var conditionValueNode = attributes.getNamedItem("value");
+            var conditionTemplateValue = getTemplateValue(node, stars);
+
+            if (conditionNameNode == null || conditionValueNode == null) return "";
+            var conditionNameKey = conditionNameNode.getNodeValue();
+            var conditionNameValue = getTemplateValue(conditionValueNode, stars);
+
+            var conditionStateValue = predicates.get(conditionNameKey);
+            if(conditionNameValue.equals(conditionStateValue)) {
+                return conditionTemplateValue;
+            }
         }
         return "";
     }
