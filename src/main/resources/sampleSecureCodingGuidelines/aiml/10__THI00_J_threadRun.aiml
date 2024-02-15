@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+	
+	<category>
+		<pattern>*class * implements Runnable*</pattern>
+		<template>
+			<think>
+				<set name="runnableClassName"><star index="2"/></set>
+				<set name="runnableInstanceName"></set>
+				<set name="calledRun">false</set>
+				<set name="invokedThreadRun">false</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>* * = new *\(\);</pattern>
+		<template>
+			<think>
+				<set name="className"><star index="3"/></set>
+				<set name="instanceName"><star index="2"/></set>
+			</think>
+			
+			<condition name="className" value="runnableClassName">
+				<think><set name="runnableInstanceName"><get name="instanceName"/></set></think>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>* Thread\(*\).run\(\)*</pattern>
+		<template>
+			<think>
+				<set name="threadRunnableName"><star index="2"/></set>
+				<set name="calledRun">true</set>
+			</think>
+			
+			<condition name="threadRunnableName" value="runnableInstanceName">
+				<condition name="calledRun">
+					<li value="true">
+						<think><set name="invokedThreadRun">true</set></think>
+					</li>
+				</condition>
+			</condition>
+		
+			<condition name="invokedThreadRun">
+				<li value="true">
+					THI00-J ,Correction: Please call start method instead of run method
+				</li>
+			</condition>
+		</template>
+	</category>
+</aiml>
