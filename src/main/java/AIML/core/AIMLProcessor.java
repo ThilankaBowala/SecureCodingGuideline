@@ -28,8 +28,11 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author anton
  * @author Marco
+ *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
  * Did code matching related changes on 28/1/24
+ * Added support for get, set, condition, li on 11/02/24 as described in
+ * http://www.aiml.foundation/doc.html
  * @since 19/10/16
  */
 public class AIMLProcessor {
@@ -136,8 +139,9 @@ public class AIMLProcessor {
             case srai:
                 return sraiParse(node, stars);
             case set:
-                setParse(node, stars);
-                return "";//FIXME?
+                return setParse(node, stars);
+            case get:
+                return getParse(node);
             case bot:
                 return botInfoParse();
             case star:
@@ -145,6 +149,10 @@ public class AIMLProcessor {
             case think:
                 getTemplateValue(node, stars);
                 return "";
+            case condition:
+                return conditionParse(node, stars);
+            case li:
+                return liParse(node, stars);
         }
         return "";
     }
@@ -184,18 +192,19 @@ public class AIMLProcessor {
     }
 
     private String textParse(Node node) {
-        return node.getNodeValue().replaceAll("(\r\n|\n\r|\r|\n)", "").replaceAll("  ", " ");
+        return node.getNodeValue().replaceAll("(\r\n|\n\r|\r|\n|\t)", "").replaceAll("  ", " ");
     }
 
-    private void setParse(Node node, List<String> stars) {
+    private String setParse(Node node, List<String> stars) {
         var attributes = node.getAttributes();
         if (attributes.getLength() > 0) {
-            var node1 = attributes.getNamedItem("getName");
-            if (node1 == null) return;
+            var node1 = attributes.getNamedItem("name");
+            if (node1 == null) return "";
             var key = node1.getNodeValue();
             var value = getTemplateValue(node, stars);
-            predicates.put(key, value);
+            return predicates.put(key, value);
         }
+        return "";
     }
 
     private String sraiParse(Node node, List<String> stars) {
@@ -212,6 +221,77 @@ public class AIMLProcessor {
         }
 
         return AppUtils.getRandom(values);
+    }
+
+    private String getParse(Node node) {
+        var attributes = node.getAttributes();
+        if (attributes.getLength() > 0) {
+            var node1 = attributes.getNamedItem("name");
+            if (node1 == null) return "";
+            var key = node1.getNodeValue();
+            var value = predicates.get(key);
+            return value;
+        }
+        return "";
+    }
+
+    private String conditionParse(Node node, List<String> stars) {
+        var attributes = node.getAttributes();
+
+        if (attributes.getLength() > 0) {
+            var conditionNameNode = attributes.getNamedItem("name");
+            var conditionValueNode = attributes.getNamedItem("value");
+
+            if (conditionNameNode == null) return "";
+            else if(conditionValueNode == null){
+                //hasn't a value: only strings for li
+                var conditionTemplateValue = getTemplateValue(node, stars);
+                return conditionTemplateValue;
+            }else{
+                //has a value: a secondary variable, no li tags
+                var conditionNameKey = conditionNameNode.getNodeValue();
+                var conditionStateValue = predicates.get(conditionNameKey);
+
+                var conditionSecondaryKey = conditionValueNode.getNodeValue();
+                var conditionSecondaryValue = predicates.get(conditionSecondaryKey);
+
+                if(conditionStateValue.equals(conditionSecondaryValue)) {
+                    var conditionTemplateValue = getTemplateValue(node, stars);
+                    return conditionTemplateValue;
+                }
+            }
+
+        }
+        return "";
+    }
+
+    private String liParse(Node node, List<String> stars) {
+        var attributes = node.getAttributes();
+        var liTemplateValue = getTemplateValue(node, stars);
+
+        if (attributes.getLength() > 0) {
+            var liValueNode = attributes.getNamedItem("value");
+            if (liValueNode == null) return "";
+
+            var parentConditionNode = node.getParentNode();
+            var conditionAttributes = parentConditionNode.getAttributes();
+
+            if (conditionAttributes.getLength() > 0) {
+                var conditionNameNode = conditionAttributes.getNamedItem("name");
+                var conditionNameKey = conditionNameNode.getNodeValue();
+                var conditionStateValue = predicates.get(conditionNameKey);
+
+                var liValue = getTemplateValue(liValueNode, stars);
+
+                if(liValue.equals(conditionStateValue)) {
+                    return liTemplateValue;
+                }
+            }
+
+            return "";
+        }else{
+            return liTemplateValue;
+        }
     }
 
     private Set<String> patterns(String topic) {

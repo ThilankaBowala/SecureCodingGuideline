@@ -77,7 +77,8 @@ public class AimlLoader {
         var aimlVersion = aimlRoot.getAttribute("version");
         log.debug("Load aiml " + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlVersion + "]"));
 
-        return aimlParser(aimlRoot.getChildNodes());
+        var childNodes = aimlRoot.getChildNodes();
+        return aimlParser(childNodes);
     }
 
     private List<AimlCategory> aimlParser(NodeList nodes) {

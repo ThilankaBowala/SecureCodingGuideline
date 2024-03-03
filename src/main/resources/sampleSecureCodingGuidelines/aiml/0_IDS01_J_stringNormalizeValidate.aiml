@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+	
+	<category>
+		<pattern>String * =*;</pattern>
+		<template>
+			<think>
+				<set name="strVar"><star index="1"/></set>
+				<set name="strVarNormalized">false</set>
+				<set name="strVarAfterNormalize"></set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>Pattern * =*;</pattern>
+		<template>
+			<think><set name="patternVar"><star index="1"/></set></think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>* = Normalizer.normalize\(*, *</pattern>
+		<template>
+			<think>
+				<set name="strVarBeforeNormalize"><star index="2"/></set>
+				<set name="strVarAfterNormalize"><star index="1"/></set>
+			</think>
+			
+			<condition name="strVarBeforeNormalize" value="strVar">
+				<think><set name="strVarNormalized">true</set></think>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>* = *\.matcher\(*\)*</pattern>
+		<template>
+			<think>
+				<set name="patternInMatcher"><star index="2"/></set>
+				<set name="strInMatcher"><star index="3"/></set>
+				<set name="correctStrVarNormalized">false</set>
+			</think>
+			
+			<condition name="patternInMatcher" value="patternVar">
+				<condition name="strInMatcher" value="strVarAfterNormalize">
+					<condition name="strVarNormalized">
+						<li value="true">
+							<think><set name="correctStrVarNormalized">true</set></think>
+						</li>
+					</condition>
+				</condition>
+			</condition>
+		
+			<condition name="correctStrVarNormalized">
+				<li value="false">
+					IDS01-J ,Correction: Please normalize string '<get name="strInMatcher"/>' before matching with pattern '<get name="patternInMatcher"/>'
+				</li>
+			</condition>
+		</template>
+	</category>
+</aiml>

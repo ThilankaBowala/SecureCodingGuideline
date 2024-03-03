@@ -2,16 +2,16 @@
 <aiml version = "2.0">
 	<category>
 		<pattern>^throw\s+new\s+RuntimeException^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 		
 	<category>
 		<pattern>^throw\s+new\s+Exception^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 		
 	<category>
 		<pattern>^throw\s+new\s+Throwable^</pattern>
-		<template>ERR08J</template>
+		<template>ERR08-J</template>
 	</category>
 </aiml>
