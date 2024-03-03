@@ -28,8 +28,11 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author anton
  * @author Marco
+ *
  * @Contributor Thilanka Bowala <thilankabowala@gmail.com>
- * Did code matching related changes on 28/1/24, added support for get, set, condition, li on 11/02/24
+ * Did code matching related changes on 28/1/24
+ * Added support for get, set, condition, li on 11/02/24 as described in
+ * http://www.aiml.foundation/doc.html
  * @since 19/10/16
  */
 public class AIMLProcessor {
