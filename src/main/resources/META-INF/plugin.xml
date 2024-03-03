@@ -18,7 +18,7 @@
     </extensions>
 
     <actions>
-        <action class="Tools.LiveParser" id="Tools.LiveParser" text="OnTheFlyMechanism" >
+        <action class="Tools.LiveParser" id="Tools.LiveParser" text="On The Fly Mechanism" >
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>
