@@ -23,8 +23,8 @@
         </action>
     </actions>
 
-    <applicationListeners>
-        <listener class="Tools.MyEditorMouseMotionListener"
-                  topic="com.intellij.openapi.editor.event.EditorMouseMotionListener"/>
-    </applicationListeners>
+<!--    <applicationListeners>-->
+<!--        <listener class="Tools.MyEditorMouseMotionListener"-->
+<!--                  topic="com.intellij.openapi.editor.event.EditorMouseMotionListener"/>-->
+<!--    </applicationListeners>-->
 </idea-plugin>
