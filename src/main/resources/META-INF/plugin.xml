@@ -14,7 +14,6 @@
     <extensions defaultExtensionNs="com.intellij">
 <!--        <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>-->
 <!--        <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>-->
-        <!--<toolWindow id="SCA_Tool" secondary="true" anchor="bottom" factoryClass="com.intellij.execution.dashboard.RunDashboardToolWindowFactory"/>-->
         <toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
     </extensions>
 
