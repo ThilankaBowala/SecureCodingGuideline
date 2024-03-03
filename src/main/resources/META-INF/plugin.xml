@@ -14,7 +14,7 @@
     <extensions defaultExtensionNs="com.intellij">
 <!--        <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>-->
 <!--        <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>-->
-        <toolWindow id="Secure Coding Plugin" secondary="true" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
+        <toolWindow id="Secure Coding Plugin" secondary="false" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
     </extensions>
 
     <actions>
