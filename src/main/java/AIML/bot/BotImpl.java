@@ -31,9 +31,9 @@ public class BotImpl {
 
     private AIML.core.StringProcessor stringProcessor;
 
-    public static BotImpl getInstance() {
+    public static BotImpl getInstance(String rootDir) {
         if (bot == null) {
-            bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\SecureCodingGuideline\\src\\main\\resources\\sampleSecureCodingGuidelines\\"); //todo: config
+            bot = new BotImpl(rootDir);
             bot.wakeUp();
         }
         return bot;

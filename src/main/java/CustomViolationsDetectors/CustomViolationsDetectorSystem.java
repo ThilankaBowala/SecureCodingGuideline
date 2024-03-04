@@ -2,6 +2,7 @@ package CustomViolationsDetectors;
 
 import AIML.bot.BotImpl;
 import AIML.entity.Violation;
+import Configurations.Constants;
 import Countermeasures.Countermeasures_data;
 import Tools.SyntaxHighlighter;
 import Tools.ToolWindowSystem;
@@ -30,7 +31,7 @@ import java.util.Map;
 
 public class CustomViolationsDetectorSystem {
     private static CustomViolationsDetectorSystem instance;
-    private final BotImpl aimlBotInstance = BotImpl.getInstance();
+    private final BotImpl aimlBotInstance = BotImpl.getInstance(Constants.getRuleStoreDirPath());
     private static final ToolWindowSystem toolWindowSystem = ToolWindowSystem.getInstance();
 
     private CustomViolationsDetectorSystem() {

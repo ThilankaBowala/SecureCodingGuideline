@@ -15,6 +15,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="Startup.PluginStartupActivity"/>
 <!--        <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>-->
 <!--        <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>-->
         <toolWindow id="Secure Coding Plugin" secondary="false" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
