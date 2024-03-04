@@ -11,6 +11,7 @@ import AIML.loaders.SubstitutionLoader;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -197,22 +198,27 @@ public class BotImpl {
     }
 
     private String getAimlFolder() {
-        return getRootDir() + "aiml";
+        return Path.of(getRootDir().concat(File.separator).concat("aiml"))
+                .toAbsolutePath().toString();
     }
 
     private String getSubstitutionsFolder() {
-        return getRootDir() + "substitutions";
+        return Path.of(getRootDir().concat(File.separator).concat("substitutions"))
+                .toAbsolutePath().toString();
     }
 
     private String getSetsFolder() {
-        return getRootDir() + "sets";
+        return Path.of(getRootDir().concat(File.separator).concat("sets"))
+                .toAbsolutePath().toString();
     }
 
     private String getMapsFolder() {
-        return getRootDir() + "maps";
+        return Path.of(getRootDir().concat(File.separator).concat("maps"))
+                .toAbsolutePath().toString();
     }
 
     private String getSkillsFolder() {
-        return getRootDir() + "skills";
+        return Path.of(getRootDir().concat(File.separator).concat("skills"))
+                .toAbsolutePath().toString();
     }
 }

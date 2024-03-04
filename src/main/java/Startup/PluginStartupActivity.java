@@ -29,7 +29,7 @@ public class PluginStartupActivity  implements StartupActivity {
             var projectRootVirtual = ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0];
             var projectRootDirPath = projectRootVirtual.getPath().replace("/", File.separator);
             var ruleStoreDirPath = Path.of(projectRootDirPath.concat(File.separator).concat(Constants.IDEA_DIR_NAME)
-                    .concat(File.separator).concat(Constants.GUIDELINES_ROOT_DIR_NAME).concat(File.separator))
+                    .concat(File.separator).concat(Constants.GUIDELINES_ROOT_DIR_NAME))
                     .toAbsolutePath().toString();
 
             Constants.setRuleStoreDirPath(ruleStoreDirPath);
