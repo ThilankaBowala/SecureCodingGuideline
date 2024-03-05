@@ -8,9 +8,11 @@ import AIML.loaders.AimlLoader;
 import AIML.loaders.MapLoader;
 import AIML.loaders.SetLoader;
 import AIML.loaders.SubstitutionLoader;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -31,10 +33,16 @@ public class BotImpl {
 
     private AIML.core.StringProcessor stringProcessor;
 
-    public static BotImpl getInstance() {
+    private static final Logger LOG = Logger.getInstance(BotImpl.class);
+
+    public static BotImpl getInstance(String rootDir) {
         if (bot == null) {
-            bot = new BotImpl("D:\\01_MSc\\0_research_final\\Code\\SecureCodingGuideline\\src\\main\\resources\\sampleSecureCodingGuidelines\\"); //todo: config
-            bot.wakeUp();
+            bot = new BotImpl(rootDir);
+            var wakeUpSucceeded = bot.wakeUp();
+            if(!wakeUpSucceeded){
+                bot = new BotImpl();
+                bot.wakeUp();
+            }
         }
         return bot;
     }
@@ -47,6 +55,23 @@ public class BotImpl {
         var aimlMaps = loadMaps();
         var aimlCategories = loadAiml();
         detector = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
+    }
+
+    private BotImpl() {
+        this(getBuiltInSamplesRootPath());
+    }
+
+    public static String getBuiltInSamplesRootPath() {
+        try{
+            File file = new File(AimlConst.sample_rule_store_root_path);
+            return file.getAbsolutePath();
+            /*var localPackagePath = AimlConst.class.getResource("sampleSecureCodingGuidelines");
+            var threadContextPath = Thread.currentThread().getContextClassLoader().getResource("sampleSecureCodingGuidelines");
+            String rootDir = localPackagePath != null ? localPackagePath.getPath() : (threadContextPath != null ? threadContextPath.getPath() : "");*/
+        }catch (Exception e){
+            LOG.error("Secure coding guidelines: Cannot find rule definitions folder: " + e);
+            return "";
+        }
     }
 
     public List<Violation> detectViolations(String editorText) {
@@ -186,7 +211,7 @@ public class BotImpl {
             return false;
         var botsFolder = Paths.get(folder);
         if (Files.notExists(botsFolder)) {
-//            log.warn("BotImpl folder " + folder + " not found!");
+            LOG.warn("Secure coding guidelines: Cannot find rule definitions folder: " + folder);
             return false;
         }
         return true;
@@ -197,22 +222,27 @@ public class BotImpl {
     }
 
     private String getAimlFolder() {
-        return getRootDir() + "aiml";
+        return Path.of(getRootDir().concat(File.separator).concat("aiml"))
+                .toAbsolutePath().toString();
     }
 
     private String getSubstitutionsFolder() {
-        return getRootDir() + "substitutions";
+        return Path.of(getRootDir().concat(File.separator).concat("substitutions"))
+                .toAbsolutePath().toString();
     }
 
     private String getSetsFolder() {
-        return getRootDir() + "sets";
+        return Path.of(getRootDir().concat(File.separator).concat("sets"))
+                .toAbsolutePath().toString();
     }
 
     private String getMapsFolder() {
-        return getRootDir() + "maps";
+        return Path.of(getRootDir().concat(File.separator).concat("maps"))
+                .toAbsolutePath().toString();
     }
 
     private String getSkillsFolder() {
-        return getRootDir() + "skills";
+        return Path.of(getRootDir().concat(File.separator).concat("skills"))
+                .toAbsolutePath().toString();
     }
 }

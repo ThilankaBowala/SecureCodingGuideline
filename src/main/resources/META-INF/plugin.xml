@@ -5,13 +5,17 @@
     <vendor email="thilankabowala@gmail.com" url="">thilankabowala</vendor>
 
     <description><![CDATA[
-    This is the extension of the plugin "Framework for Secure Coding" of TeamHelixUCSC.<br>
+    This is a plugin to enforce secure coding guidelines while coding.<br>
+    This supports creating custom secure coding guideline, and detecting on the fly in the IDE.<br>
+    This is an extension of the plugin "Framework for Secure Coding" of TeamHelixUCSC.<br>
+    Build-in secure coding guidelines are removed, and added support for creating and detecting custom secure coding guidelines.<br>
     <em>Old plugin url: https://plugins.jetbrains.com/plugin/11265-framework-for-secure-coding</em>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="Startup.PluginStartupActivity"/>
 <!--        <applicationService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyApplicationService"/>-->
 <!--        <projectService serviceImplementation="com.github.thilankabowala.securecodingguideline.services.MyProjectService"/>-->
         <toolWindow id="Secure Coding Plugin" secondary="false" anchor="bottom" factoryClass="Tools.MyToolWindowFactory"/>
