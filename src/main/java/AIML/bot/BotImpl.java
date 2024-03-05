@@ -8,6 +8,7 @@ import AIML.loaders.AimlLoader;
 import AIML.loaders.MapLoader;
 import AIML.loaders.SetLoader;
 import AIML.loaders.SubstitutionLoader;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -32,10 +33,16 @@ public class BotImpl {
 
     private AIML.core.StringProcessor stringProcessor;
 
+    private static final Logger LOG = Logger.getInstance(BotImpl.class);
+
     public static BotImpl getInstance(String rootDir) {
         if (bot == null) {
             bot = new BotImpl(rootDir);
-            bot.wakeUp();
+            var wakeUpSucceeded = bot.wakeUp();
+            if(!wakeUpSucceeded){
+                bot = new BotImpl();
+                bot.wakeUp();
+            }
         }
         return bot;
     }
@@ -48,6 +55,23 @@ public class BotImpl {
         var aimlMaps = loadMaps();
         var aimlCategories = loadAiml();
         detector = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions());
+    }
+
+    private BotImpl() {
+        this(getBuiltInSamplesRootPath());
+    }
+
+    public static String getBuiltInSamplesRootPath() {
+        try{
+            File file = new File(AimlConst.sample_rule_store_root_path);
+            return file.getAbsolutePath();
+            /*var localPackagePath = AimlConst.class.getResource("sampleSecureCodingGuidelines");
+            var threadContextPath = Thread.currentThread().getContextClassLoader().getResource("sampleSecureCodingGuidelines");
+            String rootDir = localPackagePath != null ? localPackagePath.getPath() : (threadContextPath != null ? threadContextPath.getPath() : "");*/
+        }catch (Exception e){
+            LOG.error("Secure coding guidelines: Cannot find rule definitions folder: " + e);
+            return "";
+        }
     }
 
     public List<Violation> detectViolations(String editorText) {
@@ -187,7 +211,7 @@ public class BotImpl {
             return false;
         var botsFolder = Paths.get(folder);
         if (Files.notExists(botsFolder)) {
-//            log.warn("BotImpl folder " + folder + " not found!");
+            LOG.warn("Secure coding guidelines: Cannot find rule definitions folder: " + folder);
             return false;
         }
         return true;

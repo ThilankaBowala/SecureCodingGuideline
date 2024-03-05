@@ -15,7 +15,7 @@ public class AimlConst {
 
     public static final String AIML_FILE_SUFFIX = ".aiml";
 
-    private static String root_path = Path.of("./bots/src/main/resources".replace("/", File.separator))
+    public static String sample_rule_store_root_path = Path.of("resources/sampleSecureCodingGuidelines".replace("/", File.separator))
             .toAbsolutePath().toString();
     public static final String default_bot_name = "SecureCodingGuidelineBot";
     public static final String error_bot_response = "Something is wrong with my brain.";
@@ -24,12 +24,4 @@ public class AimlConst {
     public static final String default_that = "unknown";
     public static final String null_input = "#NORESP";
     public static boolean debug = false;
-
-    public static String getRootPath() {
-        return root_path;
-    }
-
-    public static void setRootPath(String newRootPath) {
-        root_path = newRootPath;
-    }
 }
