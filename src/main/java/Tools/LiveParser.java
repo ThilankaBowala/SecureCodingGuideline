@@ -1,8 +1,6 @@
 package Tools;
 
 import CustomViolationsDetectors.CustomViolationsDetectorSystem;
-/* Uncomment below, to enable version 1 */
-//import ViolationDetectors.*;
 import com.intellij.codeInsight.hint.TooltipController;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -87,17 +85,10 @@ public class LiveParser extends AnAction {
 
             this.removeAllHighlighters(editor);
 
-            /* Uncomment below, to enable version 1 */
-            //ViolationDetectorSystem violationDetectorSystem = ViolationDetectorSystem.getInstance();
-
             CustomViolationsDetectorSystem customViolationsDetectorSystem = CustomViolationsDetectorSystem.getInstance();
 
             try {
                 toolWindowSystem.init();
-
-                /* Uncomment below, to enable version 1 */
-                //violationDetectorSystem.detectBasicViolations(editor, document, syntaxHighlighter, toolWindow);
-
                 customViolationsDetectorSystem.detectCustomViolations(editor, document, syntaxHighlighter, toolWindow);
             } catch (Exception e) {
                 e.printStackTrace();
