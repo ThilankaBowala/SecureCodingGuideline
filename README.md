@@ -1,27 +1,28 @@
 # SecureCodingGuideline
 
 ![Build](https://github.com/ThilankaBowala/SecureCodingGuideline/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
 
 The main aim of this project is to develop a plugin based framework in order to detect Secure Coding rule violations and promote the Concept of Secure Coding.
 
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
+- [x] Get familiar with the [template documentation][template].
 - [ ] Verify the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
 - [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
+- [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
+- [x] Set the Plugin ID in the above README badges.
 - [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+The main aim of this project is to develop a plugin based framework in order to detect Secure Coding rule violations and promote the Concept of Secure Coding.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+You can create your own custom secure coding guidelines using this plugin, and you can use this plugin to adhere created secure coding guidelines.
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+Please find wiki pages under [GitHub repository wiki section](https://github.com/ThilankaBowala/SecureCodingGuideline/wiki).
+ 
 <!-- Plugin description end -->
 
 ## Installation
