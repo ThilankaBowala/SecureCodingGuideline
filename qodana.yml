@@ -8,6 +8,7 @@ exclude:
   - name: All
     paths:
       - .qodana
+      - resources/sampleSecureCodingGuidelines
 with:
   pr-mode: false
   args: --save-report=false
