@@ -8,3 +8,12 @@
 ### Added
 - Updated plugin description
 
+## [0.0.3]
+### Added
+- Updated readme
+### Removed
+- Secure coding plugin V1 code
+
+## [0.0.4]
+### Removed
+- Default icon
