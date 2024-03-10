@@ -13,6 +13,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+    signing
 }
 
 group = properties("pluginGroup")
@@ -24,9 +25,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.javaparser:javaparser-symbol-solver-core:3.25.1")
-    implementation("com.github.javaparser:javaparser-core:3.25.1")
-    implementation("com.github.javaparser:javaparser-core-serialization:3.25.1")
+//    implementation("com.github.javaparser:javaparser-symbol-solver-core:3.25.1")
+//    implementation("com.github.javaparser:javaparser-core:3.25.1")
+//    implementation("com.github.javaparser:javaparser-core-serialization:3.25.1")
+    implementation("org.jetbrains:marketplace-zip-signer:0.1.24")
 }
 
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3

@@ -41,8 +41,8 @@ public class LiveParser extends AnAction {
     }
 
     static {
-        final EditorActionManager actionManager = EditorActionManager.getInstance();
-        final TypedAction typedAction = actionManager.getTypedAction();
+        //final EditorActionManager actionManager = EditorActionManager.getInstance();
+        final TypedAction typedAction = TypedAction.getInstance();
         TypedActionHandler handler = typedAction.getHandler();
         typedAction.setupHandler(new MyTypedHandler(handler));
     }
