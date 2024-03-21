@@ -17,3 +17,9 @@
 ## [0.0.4]
 ### Removed
 - Default icon
+
+## [0.0.5]
+### Added
+- AIML rule folder path validations at startup and edit of end users project
+### Removed
+- Intellij IDEA support for version 221
