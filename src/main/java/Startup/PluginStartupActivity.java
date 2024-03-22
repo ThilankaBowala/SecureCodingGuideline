@@ -14,6 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Class contains plugin startup activities
+ *
+ * @author Thilanka Bowala <thilankabowala@gmail.com>
+ * @since 1/3/24
+ */
+
 public class PluginStartupActivity  implements StartupActivity {
     private static final Logger LOG = Logger.getInstance(PluginStartupActivity.class);
 
