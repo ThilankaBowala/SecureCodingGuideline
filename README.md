@@ -1,7 +1,7 @@
 # SecureCodingGuideline
 
 ![Build](https://github.com/ThilankaBowala/SecureCodingGuideline/workflows/Build/badge.svg)
-[![Version]([https://plugins.jetbrains.com/plugin/23904-securecodingguideline])](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
+[![Version]([https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg])](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
 
 The main aim of this project is to develop a plugin based framework in order to detect Secure Coding rule violations and promote the Concept of Secure Coding.
