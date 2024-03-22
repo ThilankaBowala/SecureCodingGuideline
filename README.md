@@ -1,8 +1,8 @@
 # SecureCodingGuideline
 
 ![Build](https://github.com/ThilankaBowala/SecureCodingGuideline/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
+[![Version](https://img.shields.io/jetbrains/plugin/v/23904.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/23904.svg)](https://plugins.jetbrains.com/plugin/23904-securecodingguideline)
 
 The main aim of this project is to develop a plugin based framework in order to detect Secure Coding rule violations and promote the Concept of Secure Coding.
 
@@ -13,7 +13,7 @@ The main aim of this project is to develop a plugin based framework in order to 
 - [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
 - [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
 - [x] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
+- [x] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
