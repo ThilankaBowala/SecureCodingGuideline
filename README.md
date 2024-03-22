@@ -34,7 +34,7 @@ Please find wiki pages under [GitHub repository wiki section](https://github.com
   
 - Manually:
 
-  Download the [latest release](https://github.com/ThilankaBowala/SecureCodingGuideline/releases/latest) and install it manually using
+  Download the [latest release](https://github.com/ThilankaBowala/SecureCodingGuideline/wiki/Distributions) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
