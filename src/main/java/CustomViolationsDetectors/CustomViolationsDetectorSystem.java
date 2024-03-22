@@ -61,7 +61,7 @@ public class CustomViolationsDetectorSystem {
                 String CounterMeasure = Countermeasure_data.CountermeasureData.get(violation);
                 JLabel link = new JLabel("Click here for more details");
                 link.setHorizontalAlignment(JLabel.CENTER);
-                setRuleDescription(violationCode, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/NUM09-J.+Do+not+use+floating-point+variables+as+loop+counters");
+                setRuleDescription(violationCode, tooltip, link, CounterMeasure, "https://wiki.sei.cmu.edu/confluence/display/java/2+Rules");
             }
         }
 
